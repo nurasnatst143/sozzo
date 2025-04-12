@@ -1,12 +1,12 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
+
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { IoMdPerson } from "react-icons/io";
 import { FaLock } from "react-icons/fa6";
 
-const LoginForm = () => {
+const AdminLoginForm = () => {
 	const [credentials, setCredentials] = useState({
 		email: "",
 		password: "",
@@ -15,18 +15,16 @@ const LoginForm = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		if (!credentials.email || !credentials.password)
-			return alert("email And password is required");
-
+		if (!credentials.email || !credentials.password) return;
 		try {
 			console.log(credentials);
 			const res = await signIn("credentials", {
 				...credentials,
 				redirect: false,
 			});
-			console.log(res);
+			console.log({ res });
 			if (res.ok) {
-				router.push("/");
+				router.push("/admin");
 			}
 		} catch (error) {
 			console.log(error);
@@ -113,16 +111,8 @@ const LoginForm = () => {
 					login
 				</button>
 			</div>
-			<div className='flex mx-auto w-full text-white'>
-				<p className=' text-md  w-full text-center'>
-					Don't have account?{" "}
-					<Link href='/sign-up' className=' font-bold'>
-						Sign up
-					</Link>{" "}
-				</p>
-			</div>
 		</form>
 	);
 };
 
-export default LoginForm;
+export default AdminLoginForm;

@@ -144,7 +144,7 @@ const SumMenu = ({ onClose, session, status }) => {
 						<div className='hidden lg:block max-w-2xl mb-9'>
 							<div className='flex pt-4 pr-4 pb-2 flex-1 items-center'>
 								<span className='pr-3 lg:uppercase text-black dark:text-white text-lg lg:text-[13px] lg:tracking-[4px] font-bold leading-[20px]'>
-									Viram posts
+									Viral posts
 								</span>
 								<span className='bg-[#ffec41] h-[2px] flex-1 hidden lg:inline-block'></span>
 							</div>
