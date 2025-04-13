@@ -10,8 +10,8 @@ import Image from "next/image";
 import { categories } from "@/data/categories";
 import { socials } from "@/data/social";
 import { useEffect, useState } from "react";
-import { getPosts, getViralPosts } from "@/utils/utils";
-import { useSession, signOut } from "next-auth/react";
+import { getViralPosts } from "@/utils/utils";
+import { signOut } from "next-auth/react";
 
 const SumMenu = ({ onClose, session, status }) => {
 	const clasess =
@@ -38,6 +38,8 @@ const SumMenu = ({ onClose, session, status }) => {
 			items: 1,
 		},
 	};
+	console.log("se", session);
+
 	return (
 		<>
 			<div className='fixed w-full h-full  top-0 left-0 overflow-x-hidden bg-white transition-transform duration-300 ease-out z-[200] bg-custom-gradient '>

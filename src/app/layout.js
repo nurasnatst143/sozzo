@@ -5,6 +5,8 @@ import "swiper/css";
 import "swiper/css/bundle";
 import Providers from "@/components/nav/Providers";
 import AuthProvider from "@/components/AuthProvider";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,11 +15,14 @@ export const metadata = {
 	description: "Sozoo Today",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+	const session = await getServerSession(authOptions);
+	console.log("session", session);
+
 	return (
 		<html lang='en' suppressHydrationWarning>
 			<body className={inter.className}>
-				<AuthProvider>
+				<AuthProvider session={session}>
 					<Providers>{children}</Providers>
 				</AuthProvider>
 			</body>

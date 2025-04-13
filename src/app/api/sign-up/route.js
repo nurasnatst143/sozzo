@@ -44,7 +44,7 @@ export const POST = async (request) => {
 				address: process.env.SMTP_USER,
 			},
 			to: email,
-			subject: "Send email from nodemailer",
+			subject: "Verification from sozoo",
 			text: "test email",
 			html: `<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
         <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse; background-color: #ffffff; padding: 20px;">

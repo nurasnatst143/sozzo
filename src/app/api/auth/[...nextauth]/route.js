@@ -18,11 +18,12 @@ export const authOptions = {
 				if (!email || !password) {
 					throw new Error("Email and password are required.");
 				}
+
 				try {
 					await connectDB();
 
 					const retriveUser = await User.findOne({ email });
-					console.log("hit3", email, password, retriveUser);
+
 					if (!retriveUser) {
 						return null;
 					}
@@ -32,12 +33,12 @@ export const authOptions = {
 						retriveUser.password
 					);
 					if (!passMatch) {
-						throw new Error("Email or password wrong");
 						return null;
 					}
+					console.log("retriv", retriveUser);
 
 					const user = {
-						id: retriveUser._id,
+						id: retriveUser._id.toString(),
 						username: retriveUser.username,
 						name: retriveUser.name,
 						email: retriveUser.email,
@@ -46,17 +47,21 @@ export const authOptions = {
 					};
 					return user;
 				} catch (error) {
-					console.log("err", error);
+					console.error("Authorization error:", error);
+					return null;
 				}
 			},
 		}),
 	],
+
 	callbacks: {
 		async jwt({ token, user }) {
 			if (user) {
 				token.name = user.name;
 				token.email = user.email;
+				token.username = user.username;
 				token.role = user.role;
+				token.points = user.points;
 				token.image = user.image;
 			}
 			return token;
@@ -64,9 +69,16 @@ export const authOptions = {
 
 		async session({ session, token }) {
 			if (token) {
+				console.log("token", token);
+
 				session.user = {
 					...session.user,
+					name: token.name,
+					email: token.email,
+					username: token.username,
 					role: token.role,
+					image: token.image,
+					points: token.points,
 				};
 			}
 			return session;
@@ -76,7 +88,9 @@ export const authOptions = {
 	session: {
 		strategy: "jwt",
 	},
+
 	secret: process.env.NEXTAUTH_SECRET,
+
 	pages: {
 		signIn: "/admin/login",
 	},
