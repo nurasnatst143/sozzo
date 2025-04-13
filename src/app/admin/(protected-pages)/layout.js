@@ -1,6 +1,6 @@
-import Nav from "@/components/nav/Nav";
-import Footer from "@/components/Footer";
-import AdminNav from "@/components/nav/AdminNav";
+import Nav from "@/components/admin/nav/Nav";
+
+import AdminNav from "@/components/admin/nav/AdminAsideNav";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
@@ -30,7 +30,6 @@ const layout = async ({ children }) => {
 
 					<div className='col-span-3 bg-gray-900 p-2'>{children}</div>
 				</div>
-				<Footer />
 			</AuthProvider>
 		</>
 	);

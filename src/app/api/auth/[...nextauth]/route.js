@@ -38,9 +38,11 @@ export const authOptions = {
 
 					const user = {
 						id: retriveUser._id,
+						username: retriveUser.username,
 						name: retriveUser.name,
 						email: retriveUser.email,
 						role: retriveUser.role,
+						points: retriveUser.points,
 					};
 					return user;
 				} catch (error) {

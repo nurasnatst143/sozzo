@@ -1,50 +1,52 @@
-import connectDB from '../../../../config/connectDB';
-import User from '../../../../models/user';
-import bcrypt from 'bcryptjs';
-import NodeMailer from 'nodemailer';
-import { redirect } from 'next/navigation';
+import connectDB from "../../../../config/connectDB";
+import User from "../../../../models/user";
+import bcrypt from "bcryptjs";
+import NodeMailer from "nodemailer";
+import { redirect } from "next/navigation";
 
-export const POST = async request => {
-  connectDB();
-  try {
-    const body = await request.json()
+export const POST = async (request) => {
+	connectDB();
+	try {
+		const body = await request.json();
 
-    const hashedPass = await bcrypt.hash(body.password, 10);
+		const hashedPass = await bcrypt.hash(body.password, 10);
 
-    const name = body.name;
-    const email = body.email;
+		const name = body.name;
+		const email = body.email;
+		const username = email.split("@")[0];
+		const userData = {
+			username,
+			name,
+			email,
+			password: hashedPass,
+			role: "user",
+			status: "pending",
+			points: 100,
+		};
+		console.log("LINE AT 10 sign-up api", userData);
 
-    const userData = {
-      name,
-      email,
-      password: hashedPass,
-      role: 'user',
-      status: 'pending',
-    };
-    console.log('LINE AT 10 sign-up api', userData);
+		const res = await User.create(userData);
+		console.log("LINE AT 27", res);
 
-    const res = await User.create(userData);
-    console.log('LINE AT 27', res);
+		const transporter = NodeMailer.createTransport({
+			host: "mail.privateemail.com",
+			port: 465, // SSL port
+			secure: true, // Use true for port 465,
+			auth: {
+				user: process.env.SMTP_USER,
+				pass: process.env.SMTP_PASS,
+			},
+		});
 
-    const transporter = NodeMailer.createTransport({
-      host: 'mail.privateemail.com',
-      port: 465, // SSL port
-      secure: true, // Use true for port 465,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
-
-    const mailOptions = {
-      from: {
-        name: 'Sozoo Today',
-        address: process.env.SMTP_USER,
-      },
-      to: email,
-      subject: 'Send email from nodemailer',
-      text: 'test email',
-      html: `<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
+		const mailOptions = {
+			from: {
+				name: "Sozoo Today",
+				address: process.env.SMTP_USER,
+			},
+			to: email,
+			subject: "Send email from nodemailer",
+			text: "test email",
+			html: `<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
         <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse; background-color: #ffffff; padding: 20px;">
             <tr>
                 <td style="padding: 20px 0; color: #333333;">
@@ -76,53 +78,53 @@ export const POST = async request => {
             </tr>
         </table>
     </body>`,
-    };
+		};
 
-    await transporter.sendMail(mailOptions);
-  } catch (errors) {
-    console.log(errors);
-    return new Response(
-      JSON.stringify(
-        { message: 'Server Error', errors: errors },
-        {
-          status: errors.status,
-        }
-      )
-    );
-  }
-  // return redirect('https://www.sozootoday.com/sign-up/email-confirmation');
-  return new Response(
-    JSON.stringify(
-      { message: 'successfull' },
-      {
-        status: 200,
-      }
-    )
-  );
+		await transporter.sendMail(mailOptions);
+	} catch (errors) {
+		console.log(errors);
+		return new Response(
+			JSON.stringify(
+				{ message: "Server Error", errors: errors },
+				{
+					status: errors.status,
+				}
+			)
+		);
+	}
+	// return redirect('https://www.sozootoday.com/sign-up/email-confirmation');
+	return new Response(
+		JSON.stringify(
+			{ message: "successfull" },
+			{
+				status: 200,
+			}
+		)
+	);
 };
 
-export const GET = async request => {
-  try {
-    await connectDB();
-    const requestHeaders = new Headers(request.headers);
+export const GET = async (request) => {
+	try {
+		await connectDB();
+		const requestHeaders = new Headers(request.headers);
 
-    const userId = requestHeaders.get('Id');
+		const userId = requestHeaders.get("Id");
 
-    const userToVerify = await User.findById(userId);
+		const userToVerify = await User.findById(userId);
 
-    if (!userToVerify) {
-      return new Response('User Not Found', {
-        status: 404,
-      });
-    }
+		if (!userToVerify) {
+			return new Response("User Not Found", {
+				status: 404,
+			});
+		}
 
-    userToVerify.status = 'verified';
+		userToVerify.status = "verified";
 
-    await userToVerify.save();
-    return new Response('User verified successfully', {
-      status: 200,
-    });
-  } catch (error) {
-    return new Response('Something Went Wrong', { status: 500 });
-  }
+		await userToVerify.save();
+		return new Response("User verified successfully", {
+			status: 200,
+		});
+	} catch (error) {
+		return new Response("Something Went Wrong", { status: 500 });
+	}
 };

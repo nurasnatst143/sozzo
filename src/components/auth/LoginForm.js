@@ -40,7 +40,7 @@ const LoginForm = () => {
 	};
 	return (
 		<form
-			className='w-full max-w-md mx-auto flex flex-col gap-8'
+			className='w-full max-w-[805] mx-auto flex flex-col gap-8'
 			onSubmit={handleSubmit}
 		>
 			<div className='relative'>
