@@ -19,9 +19,9 @@ export const POST = async (request) => {
 			name,
 			email,
 			password: hashedPass,
-			role: "user",
+			role: body.role === "admin" ? "admin" : "user",
 			status: "pending",
-			points: 100,
+			points: body.role === "admin" ? null : 100,
 		};
 		console.log("LINE AT 10 sign-up api", userData);
 

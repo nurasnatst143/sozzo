@@ -35,7 +35,6 @@ export const authOptions = {
 					if (!passMatch) {
 						return null;
 					}
-					console.log("retriv", retriveUser);
 
 					const user = {
 						id: retriveUser._id.toString(),
@@ -69,8 +68,6 @@ export const authOptions = {
 
 		async session({ session, token }) {
 			if (token) {
-				console.log("token", token);
-
 				session.user = {
 					...session.user,
 					name: token.name,
