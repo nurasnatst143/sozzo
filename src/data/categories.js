@@ -7,4 +7,5 @@ export const categories = [
 	{ id: 6, title: "Opinion", url: "/opinion" },
 	{ id: 7, title: "Reviews", url: "/reviews" },
 	{ id: 8, title: "Sozoo satire", url: "/sozoo-satire" },
+	{ id: 9, title: "Sozoo talks", url: "/sozoo-talks" },
 ];
