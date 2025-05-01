@@ -5,8 +5,9 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { AiOutlineGoogle } from "react-icons/ai";
 
-const page = () => {
+const Page = () => {
 	const [credentials, setCredentials] = useState({
 		name: "",
 		email: "",
@@ -17,6 +18,7 @@ const page = () => {
 		email: "",
 		password: "",
 	});
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handleChange = (e) => {
 		setCredentials((prevState) => ({
@@ -24,17 +26,27 @@ const page = () => {
 			[e.target.name]: e.target.value,
 		}));
 	};
+
 	const router = useRouter();
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (error.name || error.password || error.email) {
 			return;
 		}
-		const res = await axios.post("/api/sign-up", credentials);
-		if (res.status === 200) {
-			router.push("/sign-up/email-confirmation");
+		try {
+			setIsLoading(true);
+			const res = await axios.post("/api/sign-up", credentials);
+			if (res.status === 200) {
+				router.push("/sign-up/email-confirmation");
+			}
+		} catch (err) {
+			console.error("Signup error:", err);
+		} finally {
+			setIsLoading(false);
 		}
 	};
+
 	return (
 		<div>
 			<div className='bg-blue-600 dark:bg-black'>
@@ -42,9 +54,9 @@ const page = () => {
 					<Nav />
 				</div>
 			</div>
-			<div className="relative h-screen w-full bg-[url('/assets/bg.jpg')] bg-no-repeat bg-center bg-cover flex items-center">
-				<div className='bg-black/20 backdrop-blur-md  shadow-md border border-white/20 mx-auto p-8 max-w-[300px] rounded-md '>
-					<h1 className='text-center text-white text-2xl font-bold py-3'>
+			<div className='relative h-screen w-full bg-white bg-no-repeat bg-center bg-cover flex justify-center items-center'>
+				<div className='bg-black/20 backdrop-blur-md min-h-[60vh] shadow-md border border-white/20 mx-auto p-8 w-full md:w-[35vw] min-w-[300px] rounded-md'>
+					<h1 className='text-center text-white text-2xl font-bold px-2 py-3'>
 						Sign Up
 					</h1>
 					<form className='w-full max-w-md m-auto' onSubmit={handleSubmit}>
@@ -52,7 +64,7 @@ const page = () => {
 							type='text'
 							id='name'
 							name='name'
-							className='w-full rounded-full  border-white bg-transparent focus:outline-none focus:border-white focus:ring-0 text-white placeholder:text-white mb-8'
+							className='w-full rounded-full border-white bg-transparent focus:outline-none focus:border-white focus:ring-0 text-white placeholder:text-white mb-8'
 							value={credentials.name}
 							onChange={handleChange}
 							placeholder='Name'
@@ -62,7 +74,7 @@ const page = () => {
 							type='email'
 							id='email'
 							name='email'
-							className='w-full rounded-full  border-white bg-transparent focus:outline-none focus:border-white focus:ring-0 text-white placeholder:text-white mb-8'
+							className='w-full rounded-full border-white bg-transparent focus:outline-none focus:border-white focus:ring-0 text-white placeholder:text-white mb-8'
 							value={credentials.email}
 							onChange={handleChange}
 							placeholder='Email'
@@ -72,7 +84,7 @@ const page = () => {
 							type='password'
 							id='password'
 							name='password'
-							className='w-full rounded-full  border-white bg-transparent focus:outline-none focus:border-white focus:ring-0 text-white placeholder:text-white mb-8'
+							className='w-full rounded-full border-white bg-transparent focus:outline-none focus:border-white focus:ring-0 text-white placeholder:text-white mb-8'
 							value={credentials.password}
 							onChange={handleChange}
 							placeholder='Password'
@@ -81,26 +93,42 @@ const page = () => {
 						<div className='flex justify-end'>
 							<button
 								type='submit'
-								className='capitalize w-full bg-white px-4 py-2 rounded-full text-lg text-black font-semibold  hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none'
+								disabled={isLoading}
+								className='capitalize w-full bg-white px-4 py-2 rounded-full text-lg text-black font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none disabled:opacity-60 flex justify-center items-center gap-2'
 							>
-								Sign up
+								{isLoading ? (
+									<span className='w-5 h-5 border-2 border-t-transparent border-black rounded-full animate-spin'></span>
+								) : (
+									"Sign up"
+								)}
 							</button>
 						</div>
+
+						<div className='flex mx-auto my-2 w-full'>
+							<button
+								type='button'
+								disabled={isLoading}
+								className='capitalize w-full bg-white px-4 py-2 rounded-full text-lg text-black font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none disabled:opacity-60 flex justify-center items-center gap-2'
+							>
+								<AiOutlineGoogle className='text-3xl text-green-500' /> Continue
+								with Google
+							</button>
+						</div>
+
 						<div className='flex mx-auto w-full text-white mt-2'>
-							<p className=' text-md  w-full text-center'>
+							<p className='text-md w-full text-center'>
 								Already have account?{" "}
-								<Link href='/login' className=' font-bold'>
+								<Link href='/login' className='font-bold'>
 									Sign in
-								</Link>{" "}
+								</Link>
 							</p>
 						</div>
 					</form>
 				</div>
 			</div>
-
 			<Footer />
 		</div>
 	);
 };
 
-export default page;
+export default Page;
