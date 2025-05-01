@@ -6,6 +6,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { AiOutlineGoogle } from "react-icons/ai";
+import { IoMdMail, IoMdPerson } from "react-icons/io";
+import { FaLock } from "react-icons/fa6";
 
 const Page = () => {
 	const [credentials, setCredentials] = useState({
@@ -49,13 +51,10 @@ const Page = () => {
 
 	return (
 		<div>
-			<div className='bg-blue-600 dark:bg-black'>
-				<div className='max-w-[1400px] mx-auto'>
-					<Nav />
-				</div>
-			</div>
-			<div className='relative h-screen w-full bg-white bg-no-repeat bg-center bg-cover flex justify-center items-center'>
-				<div className='bg-black/20 backdrop-blur-md min-h-[60vh] shadow-md border border-white/20 mx-auto p-8 w-full md:w-[35vw] min-w-[300px] rounded-md'>
+			<Nav />
+
+			<div className='relative  w-full bg-white bg-no-repeat bg-center bg-cover flex justify-center pt-14 pb-32 px-2 '>
+				<div className='bg-black/20 backdrop-blur-md  shadow-md border border-white/20 mx-auto p-4 pb-8 w-full md:w-[35vw] min-w-[300px] rounded-md'>
 					<h1 className='text-center text-white text-2xl font-bold px-2 py-3'>
 						Sign Up
 					</h1>
@@ -64,32 +63,41 @@ const Page = () => {
 							type='text'
 							id='name'
 							name='name'
-							className='w-full rounded-full border-white bg-transparent focus:outline-none focus:border-white focus:ring-0 text-white placeholder:text-white mb-8'
+							className='w-full rounded-full border-white bg-transparent focus:outline-none focus:border-white focus:ring-0 text-white placeholder:text-white mb-3'
 							value={credentials.name}
 							onChange={handleChange}
 							placeholder='Name'
 							required
 						/>
-						<input
-							type='email'
-							id='email'
-							name='email'
-							className='w-full rounded-full border-white bg-transparent focus:outline-none focus:border-white focus:ring-0 text-white placeholder:text-white mb-8'
-							value={credentials.email}
-							onChange={handleChange}
-							placeholder='Email'
-							required
-						/>
-						<input
-							type='password'
-							id='password'
-							name='password'
-							className='w-full rounded-full border-white bg-transparent focus:outline-none focus:border-white focus:ring-0 text-white placeholder:text-white mb-8'
-							value={credentials.password}
-							onChange={handleChange}
-							placeholder='Password'
-							required
-						/>
+
+						<div className='relative mb-3'>
+							<IoMdMail className='absolute right-3 top-3 z-10 text-white' />
+							<input
+								type='text'
+								id='email'
+								name='email'
+								className='w-full rounded-full border-white bg-transparent focus:outline-none focus:border-white focus:ring-0 placeholder:text-white'
+								onChange={handleChange}
+								value={credentials.email}
+								placeholder='email'
+								required
+							/>
+						</div>
+
+						<div className='relative mb-8'>
+							<FaLock className='absolute right-3 top-3 z-10 text-white' />
+							<input
+								type='password'
+								name='password'
+								id='password'
+								className='w-full rounded-full border-white bg-transparent focus:outline-none focus:border-white focus:ring-0 placeholder:text-white '
+								onChange={handleChange}
+								value={credentials.password}
+								placeholder='Password'
+								required
+							/>
+						</div>
+
 						<div className='flex justify-end'>
 							<button
 								type='submit'
@@ -108,7 +116,7 @@ const Page = () => {
 							<button
 								type='button'
 								disabled={isLoading}
-								className='capitalize w-full bg-white px-4 py-2 rounded-full text-lg text-black font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none disabled:opacity-60 flex justify-center items-center gap-2'
+								className='capitalize w-full bg-white px-4 py-2 rounded-full text-md md:text-lg text-black font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none disabled:opacity-60 flex justify-center items-center gap-2'
 							>
 								<AiOutlineGoogle className='text-3xl text-green-500' /> Continue
 								with Google

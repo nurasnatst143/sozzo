@@ -3,7 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { IoMdPerson } from "react-icons/io";
+import { IoMdMail } from "react-icons/io";
 import { FaLock } from "react-icons/fa6";
 import { AiOutlineGoogle } from "react-icons/ai";
 
@@ -40,14 +40,18 @@ const LoginForm = () => {
 			[e.target.name]: e.target.value,
 		}));
 	};
+	console.log({
+		clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+		clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
+	});
 
 	return (
 		<form
-			className='w-full max-w-[805px] mx-auto flex flex-col gap-8'
+			className='w-full max-w-[805px] mx-auto flex flex-col gap-3'
 			onSubmit={handleSubmit}
 		>
 			<div className='relative'>
-				<IoMdPerson className='absolute right-2 top-2 z-10 text-white' />
+				<IoMdMail className='absolute right-3 top-3 z-10 text-white' />
 				<input
 					type='text'
 					name='email'
@@ -58,7 +62,7 @@ const LoginForm = () => {
 				/>
 			</div>
 			<div className='relative'>
-				<FaLock className='absolute right-2 top-2 z-10 text-white' />
+				<FaLock className='absolute right-3 top-3 z-10 text-white' />
 				<input
 					type='password'
 					name='password'
@@ -68,38 +72,42 @@ const LoginForm = () => {
 					required
 				/>
 			</div>
-			<div>
-				<label
-					className='relative flex cursor-pointer items-center rounded-full text-sm'
-					htmlFor='remember'
-				>
-					<input
-						type='checkbox'
-						id='remember'
-						className='peer relative h-4 w-4 appearance-none rounded border-2 border-white cursor-pointer'
-					/>
-					<div className='pointer-events-none text-white absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 opacity-0 transition-opacity peer-checked:opacity-100'>
-						<svg
-							xmlns='http://www.w3.org/2000/svg'
-							className='h-3 w-3'
-							viewBox='0 0 20 20'
-							fill='currentColor'
-							stroke='currentColor'
-							strokeWidth='1'
-						>
-							<path
-								fillRule='evenodd'
-								d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
-								clipRule='evenodd'
-							></path>
-						</svg>
-					</div>
-					<p className='absolute top-2 left-5 -translate-y-2/4 text-white w-[120px]'>
-						Remember me
-					</p>
-				</label>
+
+			<div className='flex justify-between items-center'>
+				<div>
+					<label
+						className='relative flex cursor-pointer items-center rounded-full text-sm'
+						htmlFor='remember'
+					>
+						<input
+							type='checkbox'
+							id='remember'
+							className='peer relative h-4 w-4 appearance-none rounded border-2 border-white cursor-pointer'
+						/>
+						<div className='pointer-events-none text-white absolute right-3 top-3 -translate-y-2/4 -translate-x-2/4 opacity-0 transition-opacity peer-checked:opacity-100'>
+							<svg
+								xmlns='http://www.w3.org/2000/svg'
+								className='h-3 w-3'
+								viewBox='0 0 20 20'
+								fill='currentColor'
+								stroke='currentColor'
+								strokeWidth='1'
+							>
+								<path
+									fillRule='evenodd'
+									d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
+									clipRule='evenodd'
+								></path>
+							</svg>
+						</div>
+						<p className='absolute top-2 left-5 -translate-y-2/4 text-white w-[120px]'>
+							Remember me
+						</p>
+					</label>
+				</div>
+				<p className='text-sm text-white underline'>Forgot password?</p>
 			</div>
-			<div className='flex mx-auto w-full'>
+			<div className='flex mx-auto w-full mt-8'>
 				<button
 					type='submit'
 					disabled={loading}
@@ -110,9 +118,9 @@ const LoginForm = () => {
 			</div>
 			<div className='flex mx-auto w-full'>
 				<button
-					type='submit'
+					onClick={() => signIn("google", { callbackUrl: "/" })}
 					disabled={loading}
-					className='capitalize w-full bg-white px-4 py-2 rounded-full text-lg text-black font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none disabled:opacity-60 flex justify-center items-center gap-2'
+					className='capitalize w-full bg-white px-4 py-2 rounded-full text-md md:text-lg text-black font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none disabled:opacity-60 flex justify-center items-center gap-2'
 				>
 					<AiOutlineGoogle className='text-3xl text-green-500' /> Continue with
 					google

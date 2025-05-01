@@ -1,11 +1,17 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import User from "../../../../../models/user";
 import bcrypt from "bcryptjs";
 import connectDB from "../../../../../config/connectDB";
 
 export const authOptions = {
 	providers: [
+		GoogleProvider({
+			clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+			clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
+		}),
+
 		CredentialsProvider({
 			name: "Credentials",
 			credentials: {
@@ -54,14 +60,14 @@ export const authOptions = {
 	],
 
 	callbacks: {
-		async jwt({ token, user }) {
+		async jwt({ token, user, account, profile }) {
 			if (user) {
-				token.name = user.name;
-				token.email = user.email;
-				token.username = user.username;
-				token.role = user.role;
-				token.points = user.points;
-				token.image = user.image;
+				token.name = user.name || profile?.name;
+				token.email = user.email || profile?.email;
+				token.username = user.username || profile?.given_name;
+				token.role = user.role || "user";
+				token.points = user.points || 0;
+				token.image = user.image || profile?.picture;
 			}
 			return token;
 		},
@@ -89,7 +95,7 @@ export const authOptions = {
 	secret: process.env.NEXTAUTH_SECRET,
 
 	pages: {
-		signIn: "/admin/login",
+		signIn: "/login",
 	},
 };
 

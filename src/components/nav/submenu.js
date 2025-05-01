@@ -38,7 +38,6 @@ const SumMenu = ({ onClose, session, status }) => {
 			items: 1,
 		},
 	};
-	console.log("se", session);
 
 	return (
 		<>
