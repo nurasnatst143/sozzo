@@ -105,7 +105,9 @@ const LoginForm = () => {
 						</p>
 					</label>
 				</div>
-				<p className='text-sm text-white underline'>Forgot password?</p>
+				<Link href={"/forgot-password"}>
+					<p className='text-sm text-white underline'>Forgot password?</p>
+				</Link>
 			</div>
 			<div className='flex mx-auto w-full mt-8'>
 				<button
