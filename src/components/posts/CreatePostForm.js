@@ -96,7 +96,7 @@ const CreatePostForm = () => {
 							/>
 							<ReactQuill
 								theme='snow'
-								className='bg-white text-black mb-3'
+								className='bg-background text-black mb-3'
 								value={formData.description}
 								onChange={(event) => {
 									setFormData((state) => ({

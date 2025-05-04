@@ -9,6 +9,9 @@ const AdminNav = () => {
 			<Link href='/admin/all-posts' className='text-lg font-semibold'>
 				All posts
 			</Link>
+			<Link href='/admin/all-categories' className='text-lg font-semibold'>
+				All categories
+			</Link>
 			<Link href='/admin/headline' className='text-lg font-semibold'>
 				Headline
 			</Link>

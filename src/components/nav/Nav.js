@@ -48,7 +48,7 @@ const Nav = () => {
 	};
 
 	return (
-		<div className='flex justify-between w-full h-[80px] bg-sky-600 lg:gap-8 py-2 px-2 items-center relative'>
+		<div className='flex justify-between w-full h-[80px] bg-sky lg:gap-8 py-2 px-2 items-center relative'>
 			<Link href='/'>
 				<Image
 					src={BrandLogo}
@@ -69,7 +69,7 @@ const Nav = () => {
 					className='px-3 lg:px-5 py-1 sm:py-2 rounded-full w-full outline-black dark:outline-white border-gray-600 text-black text-sm md:text-xl border-2'
 				/>
 				{suggestions.length > 0 && (
-					<ul className='absolute top-full left-0 right-0 bg-white dark:bg-gray-800 shadow-lg z-50 mt-2 rounded-md overflow-hidden max-h-72 overflow-y-auto'>
+					<ul className='absolute top-full left-0 right-0 bg-background dark:bg-gray-800 shadow-lg z-50 mt-2 rounded-md overflow-hidden max-h-72 overflow-y-auto'>
 						{suggestions.map((post) => (
 							<li
 								key={post._id}
@@ -110,7 +110,7 @@ const Nav = () => {
 			<div
 				className={`${
 					menuOpen ? "" : "hidden"
-				} absolute right-0 top-14 bg-sky-600 dark:bg-gray-700 w-52 py-5 rounded-md z-50`}
+				} absolute right-0 top-14 bg-sky dark:bg-gray-700 w-52 py-5 rounded-md z-50`}
 			>
 				<SumMenu
 					onClose={() => setMenuOpen(!menuOpen)}

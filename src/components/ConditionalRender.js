@@ -35,7 +35,7 @@ const ConditionalRender = () => {
 
 	return loading ? (
 		<div className='w-full h-full flex items-center justify-center'>
-			<p className='text-gray-500 bg-sky-600 text-lg rounded-md'>
+			<p className='text-gray-500 bg-sky text-lg rounded-md'>
 				<Image
 					src={BrandLogo}
 					className='md:ml-5'

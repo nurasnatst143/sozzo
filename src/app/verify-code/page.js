@@ -28,11 +28,11 @@ export default function VerifyCodePage() {
 
 	return (
 		<div className='min-h-screen flex items-center justify-center bg-background px-4'>
-			<div className='w-full max-w-md bg-white shadow-lg rounded-2xl p-8 space-y-6 border border-neutral'>
+			<div className='w-full max-w-md bg-background shadow-lg rounded-2xl p-8 space-y-6 border border-neutral'>
 				<h1 className='text-2xl font-semibold text-center text-primary'>
 					Verify Reset Code
 				</h1>
-				<p className='text-sm text-center text-muted'>
+				<p className='text-sm text-center '>
 					Check your email and enter the 6-digit code
 				</p>
 
@@ -55,7 +55,7 @@ export default function VerifyCodePage() {
 					/>
 					<button
 						type='submit'
-						className='w-full bg-sky-600 text-white py-2 rounded-lg hover:bg-sky-400 transition'
+						className='w-full bg-sky text-white py-2 rounded-lg hover:bg-sky-400 transition'
 					>
 						Verify Code
 					</button>

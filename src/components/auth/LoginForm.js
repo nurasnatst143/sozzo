@@ -113,7 +113,7 @@ const LoginForm = () => {
 				<button
 					type='submit'
 					disabled={loading}
-					className='capitalize w-full bg-white px-4 py-2 rounded-full text-lg text-black font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none disabled:opacity-60'
+					className='capitalize w-full bg-background px-4 py-2 rounded-full text-lg text-black font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none disabled:opacity-60'
 				>
 					{loading ? "Loading..." : "login"}
 				</button>
@@ -122,7 +122,7 @@ const LoginForm = () => {
 				<button
 					onClick={() => signIn("google", { callbackUrl: "/" })}
 					disabled={loading}
-					className='capitalize w-full bg-white px-4 py-2 rounded-full text-md md:text-lg text-black font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none disabled:opacity-60 flex justify-center items-center gap-2'
+					className='capitalize w-full bg-background px-4 py-2 rounded-full text-md md:text-lg text-black font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none disabled:opacity-60 flex justify-center items-center gap-2'
 				>
 					<AiOutlineGoogle className='text-3xl text-green-500' /> Continue with
 					google

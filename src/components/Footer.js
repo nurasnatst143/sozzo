@@ -12,7 +12,7 @@ import BrandLogo from "@/data/images/brandLogo.png";
 
 const Footer = () => {
 	return (
-		<div className='bg-sky-600 dark:bg-gray-800 px-2 pt-14 pb-10'>
+		<div className='bg-sky dark:bg-gray-800 px-2 pt-14 pb-10'>
 			<div className='grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[1400px] mx-auto'>
 				<div className='flex flex-col items-center md:items-start gap-5 text-white dark:text-white font-semibold'>
 					<Link href='/terms-and-conditions'>TERMS AND POLICIES</Link>

@@ -41,8 +41,8 @@ const SumMenu = ({ onClose, session, status }) => {
 
 	return (
 		<>
-			<div className='fixed w-full h-full  top-0 left-0 overflow-x-hidden bg-white transition-transform duration-300 ease-out z-[200] bg-custom-gradient '>
-				<div className='flex justify-between py-2 px-14 bg-sky-600 dark:bg-gray-700'>
+			<div className='fixed w-full h-full  top-0 left-0 overflow-x-hidden bg-background transition-transform duration-300 ease-out z-[200] bg-custom-gradient '>
+				<div className='flex justify-between py-2 px-14 bg-sky dark:bg-gray-700'>
 					<div>
 						<Link href='/'>
 							<Image src={BrandLogo} width={50} height={50} alt='logo' />
@@ -106,7 +106,7 @@ const SumMenu = ({ onClose, session, status }) => {
 										<h2 className='tracking-[.41em] text-[13px] font-bold text-black dark:text-white mr-2 '>
 											CATEGORIES
 										</h2>
-										<span className='h-[1px] bg-white flex-1'></span>
+										<span className='h-[1px] bg-background flex-1'></span>
 									</div>
 									<div className='flex flex-col md:flex-row flex-wrap items-center md:items-start justify-between w-full text-black dark:text-white '>
 										{categories.map((category) => (
@@ -114,7 +114,7 @@ const SumMenu = ({ onClose, session, status }) => {
 												<Link
 													className='hover:scale-[1.05] transition-transform text-xl  md:text-lg font-bold leading-6 no-underline mb-5 block duration-150  ease-in-out  font-sans'
 													role='presentation'
-													href={category.url}
+													href={`/category/${category.url}`}
 												>
 													{category.title}
 												</Link>
@@ -128,7 +128,7 @@ const SumMenu = ({ onClose, session, status }) => {
 										<h2 className='tracking-[.41em] text-[13px] pr-4 font-bold text-black dark:text-white'>
 											OUR CHANNELS
 										</h2>
-										<span className='h-[1px] bg-white flex-1'></span>
+										<span className='h-[1px] bg-background flex-1'></span>
 									</div>
 									<div className='flex flex-wrap justify-between category_items text-black dark:text-white'>
 										{socials.map((social) => (

@@ -62,7 +62,7 @@ const Page = () => {
 							id='video'
 							required
 							onChange={handleVideoChange}
-							className='w-full rounded-md text-black bg-white border px-3 py-2'
+							className='w-full rounded-md text-black bg-background border px-3 py-2'
 						/>
 					</div>
 

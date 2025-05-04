@@ -38,7 +38,7 @@ export default function ForgotPasswordPage() {
 
 	return (
 		<div className='min-h-screen flex items-center justify-center bg-background px-4'>
-			<div className='w-full max-w-md bg-white shadow-lg rounded-2xl p-8 space-y-6 border border-neutral'>
+			<div className='w-full max-w-md bg-background shadow-lg rounded-2xl p-8 space-y-6 border border-neutral'>
 				<h1 className='text-2xl font-semibold text-center text-primary'>
 					Forgot Password
 				</h1>
@@ -68,7 +68,7 @@ export default function ForgotPasswordPage() {
 					<button
 						type='submit'
 						disabled={loading}
-						className='w-full bg-sky-600 text-white py-2 rounded-lg hover:bg-secondary/90 transition disabled:opacity-60 disabled:cursor-not-allowed'
+						className='w-full bg-sky text-white py-2 rounded-lg hover:bg-sky-400 transition disabled:opacity-60 disabled:cursor-not-allowed'
 					>
 						{loading ? "Sending..." : "Send Reset Code"}
 					</button>
@@ -77,7 +77,7 @@ export default function ForgotPasswordPage() {
 				{message && <p className='text-sm text-center text-info'>{message}</p>}
 
 				<div className='text-center'>
-					<a href='/login' className='text-sm text-secondary hover:underline'>
+					<a href='/login' className='text-sm  hover:underline'>
 						Back to Login
 					</a>
 				</div>

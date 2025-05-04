@@ -40,8 +40,8 @@ const SumMenu = ({ onClose, session, status }) => {
 	};
 	return (
 		<>
-			<div className='fixed w-full h-full  top-0 left-0 overflow-x-hidden bg-white transition-transform duration-300 ease-out z-[200] bg-custom-gradient '>
-				<div className='flex justify-between py-2 px-14 bg-sky-600 dark:bg-gray-700'>
+			<div className='fixed w-full h-full  top-0 left-0 overflow-x-hidden bg-background transition-transform duration-300 ease-out z-[200] bg-custom-gradient '>
+				<div className='flex justify-between py-2 px-14 bg-sky dark:bg-gray-700'>
 					<div>
 						<Link href='/'>
 							<Image src={BrandLogo} width={50} height={50} alt='logo' />

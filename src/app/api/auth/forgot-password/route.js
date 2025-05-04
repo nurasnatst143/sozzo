@@ -4,10 +4,10 @@ import ResetToken from "../../../../../models/resetTokenModel";
 import NodeMailer from "nodemailer";
 async function sendResetEmail(email, code) {
 	const transporter = NodeMailer.createTransport({
-		host: "mail.privateemail.com",
-		port: 465,
-		secure: true,
-		// service: "gmail",
+		// host: "mail.privateemail.com",
+		// port: 465,
+		// secure: true,
+		service: "gmail",
 		auth: {
 			user: process.env.SMTP_USER,
 			pass: process.env.SMTP_PASS,
@@ -20,8 +20,23 @@ async function sendResetEmail(email, code) {
 			address: process.env.SMTP_USER,
 		},
 		to: email,
-		subject: "Verification code from sozoo",
-		text: `verification password for resetting password : ${code}`,
+		subject: "Reset Your Sozoo Today Password",
+		text: `Hi there,
+	
+	We got a request to reset the password for your Sozoo Today account.
+	
+	If this was you, use the code below to continue:
+	
+	Your Code: ${code}
+	
+	This code is valid for a limited time and can only be used once.
+	
+	If you didn’t request a reset, no worries—your account is still safe. Just ignore this e-mail.
+	
+	Thank you for using Sozoo Today!
+	
+	Best Regards,
+	Sozoo Today`,
 		html: ``,
 	};
 
