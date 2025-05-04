@@ -57,6 +57,8 @@ export const POST = async (request) => {
 
 		return Response.redirect(`${process.env.URL_DOMAIN}/admin/all-posts`);
 	} catch (error) {
+		console.log(error);
+
 		return new Response("failed to add post", {
 			status: 500,
 		});

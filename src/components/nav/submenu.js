@@ -1,13 +1,13 @@
 "use client";
-import { FaAngleRight, FaArrowRight, FaBars, FaUser } from "react-icons/fa";
-import { MdOutlineMenu, MdOutlineClose } from "react-icons/md";
+import { FaArrowRight, FaUser } from "react-icons/fa";
+import { MdOutlineClose } from "react-icons/md";
 import BrandLogo from "@/data/images/brandLogo.png";
 import("swiper/react");
 import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Link from "next/link";
 import Image from "next/image";
-import { categories } from "@/data/categories";
+
 import { socials } from "@/data/social";
 import { useEffect, useState } from "react";
 import { getViralPosts } from "@/utils/utils";
@@ -20,6 +20,20 @@ const SumMenu = ({ onClose, session, status }) => {
 		data: [],
 		status: "idle",
 	});
+	const [categories, setCategories] = useState([]);
+	useEffect(() => {
+		const fetchCategories = async () => {
+			try {
+				const res = await fetch("/api/category");
+				const data = await res.json();
+				setCategories(data);
+			} catch (err) {
+				console.error("Failed to fetch categories:", err);
+			}
+		};
+		fetchCategories();
+	}, []);
+
 	useEffect(() => {
 		getViralPosts(setPosts);
 		// getPosts(setPosts);
@@ -109,17 +123,19 @@ const SumMenu = ({ onClose, session, status }) => {
 										<span className='h-[1px] bg-background flex-1'></span>
 									</div>
 									<div className='flex flex-col md:flex-row flex-wrap items-center md:items-start justify-between w-full text-black dark:text-white '>
-										{categories.map((category) => (
-											<div key={category.id} className='w-1/3'>
-												<Link
-													className='hover:scale-[1.05] transition-transform text-xl  md:text-lg font-bold leading-6 no-underline mb-5 block duration-150  ease-in-out  font-sans'
-													role='presentation'
-													href={`/category/${category.url}`}
-												>
-													{category.title}
-												</Link>
-											</div>
-										))}
+										{categories &&
+											categories.length > 0 &&
+											categories.map((category) => (
+												<div key={category.id} className='w-1/3'>
+													<Link
+														className='hover:scale-[1.05] transition-transform text-xl  md:text-lg font-bold leading-6 no-underline mb-5 block duration-150  ease-in-out  font-sans'
+														role='presentation'
+														href={`/category/${category.slug}`}
+													>
+														{category.name}
+													</Link>
+												</div>
+											))}
 									</div>
 								</div>
 								<div className='hidden lg:block w-[1px] bg-gray-200 dark:bg-gray-700 self-stretch mx-4 h-20 mt-8'></div>

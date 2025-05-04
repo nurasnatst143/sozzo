@@ -18,17 +18,15 @@ const layout = async ({ children }) => {
 		<>
 			<AuthProvider session={session}>
 				<ToastContainer position='top-right' autoClose={3000} hideProgressBar />
-				<div className='bg-blue-600 dark:bg-black'>
-					<div className='max-w-[1400px] mx-auto'>
-						<Nav />
-					</div>
-				</div>
+
+				<Nav />
+
 				<div className='max-w-[1400px] mx-auto px-2 min-h-[80vh] grid grid-cols-4 gap-4'>
-					<div className='h-full bg-gray-900'>
+					<div className='h-full bg-background'>
 						<AdminNav />
 					</div>
 
-					<div className='col-span-3 bg-gray-900 p-2'>{children}</div>
+					<div className='col-span-3 bg-secondary p-2'>{children}</div>
 				</div>
 			</AuthProvider>
 		</>

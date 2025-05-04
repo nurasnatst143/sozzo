@@ -83,6 +83,7 @@ button:active {
 		--bg-sky: #007aff;
 		--background: #ffffff;
 		--foreground: #0a0a0a;
+		--bg-transparent: #ffffffad;
 		--card: #ffffff;
 		--card-foreground: #0a0a0a;
 		--popover: #ffffff;
@@ -111,6 +112,7 @@ button:active {
 	.dark {
 		--bg-sky: #171717;
 		--background: #0a0a0a;
+		--bg-transparent: #0a0a0aa6;
 		--foreground: #fafafa;
 		--card: #0a0a0a;
 		--card-foreground: #fafafa;

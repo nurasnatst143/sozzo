@@ -23,6 +23,7 @@ module.exports = {
 				sky: "var(--bg-sky)",
 				background: "var(--background)",
 				foreground: "var(--foreground)",
+				transparent: "var(--bg-transparent)",
 				card: {
 					DEFAULT: "var(--card)",
 					foreground: "var(--card-foreground)",

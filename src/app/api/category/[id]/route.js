@@ -1,4 +1,4 @@
-import connectDB from ".././../../../config/connectDB";
+import connectDB from "../../../../../config/connectDB";
 import { Category } from "../../../../../models/category";
 
 // GET single category

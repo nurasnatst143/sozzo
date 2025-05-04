@@ -11,7 +11,7 @@ const ReactQuill = dynamic(() => import("react-quill"), {
 
 const CreatePostForm = () => {
 	const [mounted, setMounted] = useState(false);
-
+	const [categories, setCategories] = useState([]);
 	useEffect(() => {
 		setMounted(true);
 	}, []);
@@ -23,20 +23,19 @@ const CreatePostForm = () => {
 		featured: false,
 		viralPost: false,
 	});
-	const options = [
-		{ label: "Business", value: "business" },
-		{ label: "Politics", value: "politics" },
-		{ label: "Sports", value: "sports" },
-		{ label: "pop Culture", value: "pop-culture" },
-		{ label: "Education", value: "education" },
-		{ label: "Opinion", value: "opinion" },
-		{ label: "Reviews", value: "reviews" },
-		{ label: "Games", value: "games" },
-		{ label: "Sozoo Talks", value: "sozoo talks" },
-		{ label: "Sozoo Satire", value: "sozoo satire" },
-		{ label: "Sozoo Pictures", value: "sozoo pictures" },
-		{ label: "More", value: "more" },
-	];
+
+	useEffect(() => {
+		const fetchCategories = async () => {
+			try {
+				const res = await fetch("/api/category");
+				const data = await res.json();
+				setCategories(data);
+			} catch (err) {
+				console.error("Failed to fetch categories:", err);
+			}
+		};
+		fetchCategories();
+	}, []);
 	const handleChange = (e) => {
 		setFormData((data) => ({ ...data, [e.target.name]: e.target.value }));
 	};
@@ -96,7 +95,7 @@ const CreatePostForm = () => {
 							/>
 							<ReactQuill
 								theme='snow'
-								className='bg-background text-black mb-3'
+								className='bg-card text-primary mb-3'
 								value={formData.description}
 								onChange={(event) => {
 									setFormData((state) => ({
@@ -114,7 +113,7 @@ const CreatePostForm = () => {
 								Select Category
 							</label>
 							<DropdownSelect
-								options={options}
+								options={categories}
 								selectedOption={formData.category}
 								onSelect={handleSelect}
 							/>

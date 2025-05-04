@@ -22,7 +22,7 @@ const Nav = () => {
 	};
 
 	return (
-		<div className='flex justify-between  lg:gap-8 py-2 px-2 items-center relative'>
+		<div className='flex justify-between bg-sky lg:gap-8 py-2 px-2 items-center relative'>
 			<Link href='/'>
 				<Image src={BrandLogo} width={50} height={50} alt='logo' />
 			</Link>

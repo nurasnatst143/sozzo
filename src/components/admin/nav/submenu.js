@@ -20,6 +20,7 @@ const SumMenu = ({ onClose, session, status }) => {
 		data: [],
 		status: "idle",
 	});
+
 	useEffect(() => {
 		getViralPosts(setPosts);
 		// getPosts(setPosts);

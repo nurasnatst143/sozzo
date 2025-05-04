@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Pencil, Plus, Save } from "lucide-react";
+import { Pencil, Plus } from "lucide-react";
 
 // Simple slugify function
 const slugify = (text) =>
@@ -17,11 +17,16 @@ export default function CategoryManager() {
 	const [parentId, setParentId] = useState("");
 	const [isFeatured, setIsFeatured] = useState(false);
 	const [status, setStatus] = useState("active");
+
 	const [showModal, setShowModal] = useState(false);
 	const [editingId, setEditingId] = useState(null);
-	const [editedName, setEditedName] = useState("");
+	const [editForm, setEditForm] = useState({
+		name: "",
+		parent_id: "",
+		is_featured: false,
+		status: "active",
+	});
 
-	// Fetch categories
 	useEffect(() => {
 		const fetchCategories = async () => {
 			try {
@@ -35,7 +40,6 @@ export default function CategoryManager() {
 		fetchCategories();
 	}, []);
 
-	// Add category
 	const handleAddCategory = async () => {
 		if (!newCategory.trim()) return;
 
@@ -53,43 +57,57 @@ export default function CategoryManager() {
 			});
 			const created = await res.json();
 			setCategories((prev) => [...prev, created]);
-			setNewCategory("");
-			setParentId("");
-			setIsFeatured(false);
-			setStatus("active");
-			setShowModal(false);
+			resetModal();
 		} catch (err) {
 			console.error("Add failed:", err);
 		}
 	};
 
-	// Edit category
-	const handleEditCategory = async (id, name) => {
+	const handleEditCategory = async () => {
 		try {
-			const res = await fetch(`/api/category/${id}`, {
-				method: "PATCH",
+			const res = await fetch(`/api/category/${editingId}`, {
+				method: "PUT",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ name }),
+				body: JSON.stringify({
+					name: editForm.name,
+					slug: slugify(editForm.name),
+					parent_id: editForm.parent_id || null,
+					is_featured: editForm.is_featured,
+					status: editForm.status,
+				}),
 			});
 			const updated = await res.json();
 
-			const updateName = (list) =>
+			const updateTree = (list) =>
 				list.map((cat) => {
-					if (cat._id === id) return { ...cat, name: updated.name };
-					if (cat.children) {
-						return { ...cat, children: updateName(cat.children) };
-					}
+					if (cat._id === editingId) return { ...cat, ...updated };
+					if (cat.children)
+						return { ...cat, children: updateTree(cat.children) };
 					return cat;
 				});
 
-			setCategories((prev) => updateName(prev));
-			setEditingId(null);
+			setCategories((prev) => updateTree(prev));
+			resetModal();
 		} catch (err) {
 			console.error("Edit failed:", err);
 		}
 	};
 
-	// Render nested category options for parent selector
+	const resetModal = () => {
+		setNewCategory("");
+		setParentId("");
+		setIsFeatured(false);
+		setStatus("active");
+		setEditingId(null);
+		setEditForm({
+			name: "",
+			parent_id: "",
+			is_featured: false,
+			status: "active",
+		});
+		setShowModal(false);
+	};
+
 	const renderCategoryOptions = (list, depth = 0) => {
 		return list.flatMap((cat) => [
 			<option key={cat._id} value={cat._id}>
@@ -105,39 +123,28 @@ export default function CategoryManager() {
 				{list.map((category) => (
 					<li key={category._id} className='flex flex-col items-start gap-1'>
 						<div className='flex items-center gap-2'>
-							{editingId === category._id ? (
-								<>
-									<input
-										type='text'
-										value={editedName}
-										onChange={(e) => setEditedName(e.target.value)}
-										className='border px-2 py-1 rounded w-48'
-									/>
-									<button
-										className='text-success hover:text-green-600'
-										onClick={() => handleEditCategory(category._id, editedName)}
-									>
-										<Save size={16} />
-									</button>
-								</>
-							) : (
-								<>
-									<span className='text-sm font-medium'>{category.name}</span>
-									<span className='text-xs text-muted'>
-										({category.status},{" "}
-										{category.is_featured ? "Featured" : "Not Featured"})
-									</span>
-									<button
-										className='text-neutral hover:text-primary'
-										onClick={() => {
-											setEditingId(category._id);
-											setEditedName(category.name);
-										}}
-									>
-										<Pencil size={14} />
-									</button>
-								</>
-							)}
+							<div className='bg-card flex gap-2 justify-center items-center p-2 rounded-md'>
+								<span className='text-sm font-medium'>{category.name}</span>
+								<span className='text-xs '>
+									({category.status},{" "}
+									{category.is_featured ? "Featured" : "Not Featured"})
+								</span>
+								<button
+									className='text-neutral hover:text-primary'
+									onClick={() => {
+										setEditingId(category._id);
+										setEditForm({
+											name: category.name,
+											parent_id: category.parent_id || "",
+											is_featured: category.is_featured,
+											status: category.status,
+										});
+										setShowModal(true);
+									}}
+								>
+									<Pencil size={14} />
+								</button>
+							</div>
 						</div>
 						{category.children && renderCategories(category.children)}
 					</li>
@@ -152,7 +159,7 @@ export default function CategoryManager() {
 				<h2 className='text-xl font-semibold text-primary'>Categories</h2>
 				<button
 					onClick={() => setShowModal(true)}
-					className='bg-primary text-background px-3 py-1 rounded flex items-center gap-1 hover:bg-secondary'
+					className='bg-card text-primary px-3 py-1 rounded flex items-center gap-1 hover:bg-secondary'
 				>
 					<Plus size={16} /> Add Category
 				</button>
@@ -161,71 +168,93 @@ export default function CategoryManager() {
 
 			{/* Modal */}
 			{showModal && (
-				<div className='fixed inset-0 z-50 bg-white/50 flex items-center justify-center'>
-					<div className='bg-background text-black rounded shadow-lg p-6 w-full max-w-md'>
-						<h3 className='text-lg font-semibold mb-4'>Add New Category</h3>
+				<div className='fixed inset-0 z-50 bg-black bg-opacity-30 flex items-center justify-center'>
+					<div className='bg-card text-black rounded shadow-lg p-6 w-full max-w-md'>
+						<h3 className='text-lg text-primary font-semibold mb-4'>
+							{editingId ? "Edit Category" : "Add New Category"}
+						</h3>
 
-						{/* Category name */}
+						{/* Name */}
 						<input
 							type='text'
 							placeholder='Category name'
-							value={newCategory}
-							onChange={(e) => setNewCategory(e.target.value)}
+							value={editingId ? editForm.name : newCategory}
+							onChange={(e) =>
+								editingId
+									? setEditForm({ ...editForm, name: e.target.value })
+									: setNewCategory(e.target.value)
+							}
 							className='border w-full px-3 py-2 rounded mb-2'
 						/>
 
 						{/* Slug preview */}
-						{newCategory && (
+						{(editingId ? editForm.name : newCategory) && (
 							<p className='text-xs text-muted mb-3'>
 								Slug:{" "}
 								<code className='bg-neutral px-2 py-0.5 rounded'>
-									{slugify(newCategory)}
+									{slugify(editingId ? editForm.name : newCategory)}
 								</code>
 							</p>
 						)}
 
-						{/* Parent category select */}
+						{/* Parent */}
 						<select
-							value={parentId}
-							onChange={(e) => setParentId(e.target.value)}
+							value={editingId ? editForm.parent_id : parentId}
+							onChange={(e) =>
+								editingId
+									? setEditForm({ ...editForm, parent_id: e.target.value })
+									: setParentId(e.target.value)
+							}
 							className='border w-full px-3 py-2 rounded mb-3'
 						>
 							<option value=''>-- No Parent (Top Level) --</option>
 							{renderCategoryOptions(categories)}
 						</select>
 
-						{/* Is Featured toggle */}
-						<label className='flex items-center gap-2 text-sm mb-3'>
+						{/* Featured */}
+						<label className='flex items-center text-primary gap-2 text-sm mb-3'>
 							<input
 								type='checkbox'
-								checked={isFeatured}
-								onChange={(e) => setIsFeatured(e.target.checked)}
+								checked={editingId ? editForm.is_featured : isFeatured}
+								onChange={(e) =>
+									editingId
+										? setEditForm({
+												...editForm,
+												is_featured: e.target.checked,
+										  })
+										: setIsFeatured(e.target.checked)
+								}
 							/>
 							Is Featured
 						</label>
 
-						{/* Status select */}
+						{/* Status */}
 						<select
-							value={status}
-							onChange={(e) => setStatus(e.target.value)}
+							value={editingId ? editForm.status : status}
+							onChange={(e) =>
+								editingId
+									? setEditForm({ ...editForm, status: e.target.value })
+									: setStatus(e.target.value)
+							}
 							className='border w-full px-3 py-2 rounded mb-4'
 						>
 							<option value='active'>Active</option>
 							<option value='inactive'>Inactive</option>
 						</select>
 
+						{/* Buttons */}
 						<div className='flex justify-end gap-2'>
 							<button
-								onClick={() => setShowModal(false)}
-								className='px-4 py-2 rounded border text-neutral'
+								onClick={resetModal}
+								className='px-4 py-2 rounded border bg-muted text-primary'
 							>
 								Cancel
 							</button>
 							<button
-								onClick={handleAddCategory}
-								className='px-4 py-2 bg-primary text-background rounded hover:bg-secondary'
+								onClick={editingId ? handleEditCategory : handleAddCategory}
+								className='px-4 py-2 bg-sky text-white rounded '
 							>
-								Add
+								{editingId ? "Update" : "Add"}
 							</button>
 						</div>
 					</div>
