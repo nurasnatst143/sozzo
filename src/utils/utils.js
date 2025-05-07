@@ -1,12 +1,11 @@
 import axios from "axios";
 
 export const getPosts = async (cb) => {
-	cb((x) => ({ ...x, status: "loading" }));
 	const res = await axios.get(`/api/posts/all-posts`);
 	if (res.status === 200) {
-		cb({ data: res.data.posts, status: "idle" });
+		cb(res.data.posts);
 	} else {
-		cb({ data: [], status: "idle" });
+		cb([]);
 	}
 };
 
@@ -47,11 +46,10 @@ export const deletePost = async (cb, id) => {
 	const res = await axios.delete(`/api/posts/${id}`);
 	if (res.status === 200) {
 		cb((x) => {
-			const updatedData = x.data.filter((y) => y._id !== id);
+			const updatedData = x.filter((y) => y._id !== id);
 
 			return {
-				data: updatedData,
-				status: x.status,
+				updatedData,
 			};
 		});
 	}
