@@ -59,13 +59,13 @@ const Nav = () => {
 				/>
 			</Link>
 
-			<div className='relative w-[260px] md:w-[40vw] flex gap-2'>
+			<div className='relative w-[260px] md:w-[40vw] flex gap-2 pr-3'>
 				<input
 					ref={inputRef}
 					type='text'
 					value={searchTerm}
 					onChange={(e) => setSearchTerm(e.target.value)}
-					placeholder='Search stories'
+					placeholder='Search'
 					className='px-3 lg:px-5 py-1 sm:py-2 rounded-full w-full outline-black dark:outline-white border-gray-600 text-black text-sm md:text-xl border-2'
 				/>
 				{suggestions.length > 0 && (

@@ -102,33 +102,39 @@ const DisplayAllPosts = () => {
 										}}
 									/>
 								</Link>
-								<div className='text-2xl flex justify-end gap-2'>
-									<div
-										className={`bg-sky-500 px-2 py-2 rounded-full  cursor-pointer `}
-										onClick={() => handlePin(item._id)}
-									>
-										{item.isPined ? <PinIcon /> : <PinOffIcon />}
+								<div className='text-2xl flex justify-between items-center gap-2'>
+									<div className='flex gap-2 text-lg'>
+										<span>{item?.likeCount} Likes</span>
+										<span>{item?.commentCount} Comments</span>
 									</div>
+									<div className="flex gap-2'">
+										<div
+											className={`bg-sky-500 px-2 py-2 rounded-full  cursor-pointer `}
+											onClick={() => handlePin(item._id)}
+										>
+											{item.isPined ? <PinIcon /> : <PinOffIcon />}
+										</div>
 
-									<div
-										className={`bg-sky-500 px-2 py-2 rounded-full  cursor-pointer ${
-											item.isHeadLine ? "bg-green-500" : ""
-										}`}
-										onClick={() => handleHeadline(item._id)}
-									>
-										<GoHeading />
-									</div>
-									<Link
-										href={`/admin/show-posts/update/${item._id}`}
-										className='bg-green-500 px-2 py-2 rounded-full cursor-pointer'
-									>
-										<RiFileEditFill />
-									</Link>
-									<div
-										className='bg-red-500 px-2 py-2 rounded-full cursor-pointer'
-										onClick={() => handleDelete(item._id)}
-									>
-										<MdDeleteForever />
+										<div
+											className={`bg-sky-500 px-2 py-2 rounded-full  cursor-pointer ${
+												item.isHeadLine ? "bg-green-500" : ""
+											}`}
+											onClick={() => handleHeadline(item._id)}
+										>
+											<GoHeading />
+										</div>
+										<Link
+											href={`/admin/edit-post/${item._id}`}
+											className='bg-green-500 px-2 py-2 rounded-full cursor-pointer'
+										>
+											<RiFileEditFill />
+										</Link>
+										<div
+											className='bg-red-500 px-2 py-2 rounded-full cursor-pointer'
+											onClick={() => handleDelete(item._id)}
+										>
+											<MdDeleteForever />
+										</div>
 									</div>
 								</div>
 							</div>

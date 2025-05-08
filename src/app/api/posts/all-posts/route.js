@@ -6,17 +6,30 @@ export const GET = async (request) => {
 	try {
 		await connectDB();
 
-		const posts = await Post.find({}).sort({ isPined: -1, createdAt: -1 });
+		const posts = await Post.aggregate([
+			{ $sort: { isPined: -1, createdAt: -1 } },
+			{
+				$project: {
+					title: 1,
+					description: 1,
+					category: 1,
+					featured: 1,
+					viralPost: 1,
+					isHeadLine: 1,
+					isPined: 1,
+					image: 1,
+					createdAt: 1,
+					updatedAt: 1,
+					likeCount: { $size: "$likes" },
+					commentCount: { $size: "$comments" },
+				},
+			},
+		]);
 
 		const path = request.nextUrl.searchParams.get("path");
 
-		console.log(path);
-
 		if (path) {
 			revalidatePath(path);
-			return new Response(JSON.stringify({ posts }), {
-				status: 200,
-			});
 		}
 
 		return new Response(JSON.stringify({ posts }), {

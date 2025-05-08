@@ -26,11 +26,11 @@ const Nav = () => {
 			<Link href='/'>
 				<Image src={BrandLogo} width={50} height={50} alt='logo' />
 			</Link>
-			<div className='flex items-center justify-between gap-4 '>
+			<div className='relative w-[260px] md:w-[40vw] flex gap-2 items-center pr-3'>
 				<input
 					type='text'
 					placeholder='SEARCH'
-					className='px-3 lg:px-5 py-2 rounded-full max-w-2xl outline-black dark:outline-white border-gray-600 border-2'
+					className='px-3 lg:px-5 py-1 sm:py-2 rounded-full w-full outline-black dark:outline-white border-gray-600 text-black text-sm md:text-xl border-2'
 					onKeyDown={(e) => {
 						if (e.key === "Enter") {
 							e.preventDefault();

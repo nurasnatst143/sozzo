@@ -1,27 +1,53 @@
-import React, { useState } from 'react';
-
 const ImageUploadInput = ({ formData, setFormData }) => {
-  const handleImageChange = e => {
-    const file = e.target.files[0];
+	const handleImageChange = (e) => {
+		const file = e.target.files[0];
+		if (file) {
+			setFormData((prev) => ({
+				...prev,
+				image: file,
+			}));
+		}
+	};
 
-    setFormData(data => ({ ...data, image: file }));
-  };
+	const handleRemoveImage = () => {
+		setFormData((prev) => ({
+			...prev,
+			image: "",
+		}));
+	};
 
-  return (
-    <div className="flex items-center">
-      <label className="relative cursor-pointer bg-gray-400 hover:bg-gray-500  px-4 py-2 rounded-md shadow-sm">
-        <span className="text-sm font-semibold">Upload Image</span>
-        <input
-          type="file"
-          name="image"
-          className="sr-only"
-          accept="image/*"
-          onChange={handleImageChange}
-        />
-      </label>
-      {formData.image && <span className="ml-3">{formData.image.name}</span>}
-    </div>
-  );
+	const isImageURL =
+		typeof formData.image === "string" && formData.image !== "";
+
+	return (
+		<div className='my-4'>
+			<label className='text-md font-semibold pb-1 block'>Image</label>
+
+			{isImageURL && (
+				<div className='mb-2'>
+					<img
+						src={formData.image}
+						alt='Current'
+						className='w-32 h-32 object-cover rounded mb-2 border'
+					/>
+					<button
+						type='button'
+						onClick={handleRemoveImage}
+						className='text-sm text-red-600 underline'
+					>
+						Remove image
+					</button>
+				</div>
+			)}
+
+			<input
+				type='file'
+				accept='image/*'
+				onChange={handleImageChange}
+				className='block mt-2'
+			/>
+		</div>
+	);
 };
 
 export default ImageUploadInput;
