@@ -8,6 +8,7 @@ import Link from "next/link";
 import { AiOutlineGoogle } from "react-icons/ai";
 import { IoMdMail, IoMdPerson } from "react-icons/io";
 import { FaLock } from "react-icons/fa6";
+import { signIn } from "next-auth/react";
 
 const Page = () => {
 	const [credentials, setCredentials] = useState({
@@ -100,12 +101,15 @@ const Page = () => {
 
 						<div className='flex justify-end'>
 							<button
+								onClick={() => signIn("google", { callbackUrl: "/" })}
 								type='submit'
 								disabled={isLoading}
 								className='capitalize w-full bg-primary px-4 py-2 rounded-full text-lg text-background font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none disabled:opacity-60 flex justify-center items-center gap-2'
 							>
 								{isLoading ? (
-									<span className='w-5 h-5 border-2 border-t-transparent border-black rounded-full animate-spin'></span>
+									<span className='w-5 h-5 border-2 border-t-transparent border-black rounded-full animate-spin'>
+										Loading...
+									</span>
 								) : (
 									"Sign up"
 								)}
