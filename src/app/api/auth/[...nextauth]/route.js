@@ -60,6 +60,29 @@ export const authOptions = {
 	],
 
 	callbacks: {
+		async signIn({ user, account, profile }) {
+			await connectDB();
+
+			if (account.provider === "google") {
+				const existingUser = await User.findOne({ email: user.email });
+
+				if (!existingUser) {
+					// Create new user based on your schema
+					await User.create({
+						authProvider: "google",
+						googleId: account.providerAccountId,
+						email: user.email,
+						emailVerified: true,
+						name: user.name,
+						image: user.image,
+						points: 100,
+					});
+				}
+			}
+
+			return true; // Allow sign in
+		},
+
 		async jwt({ token, user, account, profile }) {
 			if (user) {
 				token.name = user.name || profile?.name;

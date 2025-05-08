@@ -63,7 +63,7 @@ const Page = () => {
 							type='text'
 							id='name'
 							name='name'
-							className='w-full rounded-full border-white bg-transparent focus:outline-none focus:border-white focus:ring-0 text-white placeholder:text-white mb-3'
+							className='w-full rounded-full border-white bg-transparent focus:outline-none focus:border-white focus:ring-0 text-primary placeholder:text-white mb-3'
 							value={credentials.name}
 							onChange={handleChange}
 							placeholder='Name'
@@ -102,7 +102,7 @@ const Page = () => {
 							<button
 								type='submit'
 								disabled={isLoading}
-								className='capitalize w-full bg-background px-4 py-2 rounded-full text-lg text-black font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none disabled:opacity-60 flex justify-center items-center gap-2'
+								className='capitalize w-full bg-primary px-4 py-2 rounded-full text-lg text-background font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none disabled:opacity-60 flex justify-center items-center gap-2'
 							>
 								{isLoading ? (
 									<span className='w-5 h-5 border-2 border-t-transparent border-black rounded-full animate-spin'></span>
@@ -111,12 +111,13 @@ const Page = () => {
 								)}
 							</button>
 						</div>
-
+					</form>
+					<div className='w-full max-w-md m-auto'>
 						<div className='flex mx-auto my-2 w-full'>
 							<button
 								type='button'
 								disabled={isLoading}
-								className='capitalize w-full bg-background px-4 py-2 rounded-full text-md md:text-lg text-black font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none disabled:opacity-60 flex justify-center items-center gap-2'
+								className='capitalize w-full bg-primary px-4 py-2 rounded-full text-md md:text-lg text-background font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none disabled:opacity-60 flex justify-center items-center gap-2'
 							>
 								<AiOutlineGoogle className='text-3xl text-green-500' /> Continue
 								with Google
@@ -131,7 +132,7 @@ const Page = () => {
 								</Link>
 							</p>
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 			<Footer />

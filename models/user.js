@@ -2,21 +2,49 @@ import mongoose, { Schema, models } from "mongoose";
 
 const userSchema = new Schema(
 	{
-		username: {
+		authProvider: {
 			type: String,
-			required: false,
-			unique: true,
-		},
-		name: {
-			type: String,
+			enum: ["email", "google"],
 			required: true,
 		},
+		googleId: { type: String, default: null },
+		facebookId: { type: String, default: null },
+
 		email: {
 			type: String,
-			required: true,
+			required: function () {
+				return this.authProvider === "email";
+			},
 			unique: true,
 		},
+		emailVerified: {
+			type: Boolean,
+			default: false,
+		},
+
 		password: {
+			type: String,
+			required: function () {
+				return this.authProvider === "email";
+			},
+		},
+
+		username: {
+			type: String,
+			unique: true,
+			sparse: true, // for users who don't set username initially
+		},
+		lastUsernameChange: {
+			type: Date,
+		},
+		reservedUsernames: [
+			{
+				name: String,
+				expiresAt: Date,
+			},
+		],
+
+		name: {
 			type: String,
 			required: true,
 		},
@@ -25,16 +53,27 @@ const userSchema = new Schema(
 			default:
 				"https://res.cloudinary.com/doq0sfefc/image/upload/v1723838324/avatar_evqh3d.png",
 		},
+
+		interests: {
+			type: [String],
+			default: [],
+		},
+		notificationsEnabled: {
+			type: Boolean,
+			default: false,
+		},
+
 		role: {
 			type: String,
-			required: true,
+			default: "Reader",
 		},
 		status: {
 			type: String,
-			required: true,
+			default: "active",
 		},
 		points: {
 			type: Number,
+			default: 100, // Signup bonus
 		},
 	},
 	{
@@ -43,5 +82,4 @@ const userSchema = new Schema(
 );
 
 const User = models.User || mongoose.model("User", userSchema);
-
 export default User;

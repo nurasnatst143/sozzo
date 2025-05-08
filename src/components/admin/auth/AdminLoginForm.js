@@ -109,7 +109,7 @@ const AdminLoginForm = () => {
 				<button
 					type='submit'
 					disabled={loading}
-					className='capitalize w-full bg-background px-4 py-2 rounded-full text-lg text-black font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none flex items-center justify-center gap-2'
+					className='capitalize w-full bg-primary px-4 py-2 rounded-full text-lg text-background font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none flex items-center justify-center gap-2'
 				>
 					{loading ? (
 						<span className='animate-spin h-5 w-5 border-2 border-black border-t-transparent rounded-full'></span>
