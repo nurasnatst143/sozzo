@@ -64,6 +64,7 @@ const postSchema = new Schema(
 				avatar: {
 					type: String,
 					required: true,
+					default: "https://placehold.co/40x40",
 				},
 				date: {
 					type: Date,
