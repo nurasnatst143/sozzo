@@ -3,6 +3,20 @@
 import { useSession } from "next-auth/react";
 import { useState, useRef } from "react";
 
+// Default Interests
+const defaultInterests = [
+	"Technology",
+	"Sports",
+	"Politics",
+	"Health",
+	"Entertainment",
+	"Science",
+	"Business",
+	"Lifestyle",
+	"Travel",
+	"Music",
+];
+
 export default function ProfilePage() {
 	const { data: session, update } = useSession();
 	const user = session?.user;
@@ -12,7 +26,7 @@ export default function ProfilePage() {
 	const [formData, setFormData] = useState({
 		name: user?.name || "",
 		username: user?.username || "",
-		interests: user?.interests || [],
+		interests: user?.interests || [], // Interests will be an array
 		notificationsEnabled: user?.notificationsEnabled || false,
 		image: null, // File object
 		imagePreview: user?.image || "",
@@ -36,6 +50,14 @@ export default function ProfilePage() {
 				imagePreview: URL.createObjectURL(file),
 			});
 		}
+	};
+
+	const handleInterestsChange = (e) => {
+		const selectedOptions = Array.from(
+			e.target.selectedOptions,
+			(option) => option.value
+		);
+		setFormData({ ...formData, interests: selectedOptions });
 	};
 
 	const handleUpdate = async () => {
@@ -131,6 +153,23 @@ export default function ProfilePage() {
 										className='mt-2 w-20 h-20 rounded-full object-cover border'
 									/>
 								)}
+							</div>
+
+							<div>
+								<label className='block mb-1 font-medium'>Interests</label>
+								<select
+									name='interests'
+									multiple
+									value={formData.interests}
+									onChange={handleInterestsChange}
+									className='w-full p-3 rounded-md border bg-input text-foreground border-border'
+								>
+									{defaultInterests.map((interest) => (
+										<option key={interest} value={interest}>
+											{interest}
+										</option>
+									))}
+								</select>
 							</div>
 
 							{/* Notifications */}

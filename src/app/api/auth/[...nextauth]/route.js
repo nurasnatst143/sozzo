@@ -67,7 +67,6 @@ export const authOptions = {
 				const existingUser = await User.findOne({ email: user.email });
 
 				if (!existingUser) {
-					// Create new user based on your schema
 					await User.create({
 						authProvider: "google",
 						googleId: account.providerAccountId,

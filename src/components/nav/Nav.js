@@ -8,6 +8,7 @@ import BrandLogo from "@/data/images/brandLogo.png";
 import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
 import SumMenu from "./submenu";
+import { BellIcon } from "lucide-react";
 
 const Nav = () => {
 	const { data: session, status } = useSession();
@@ -92,6 +93,7 @@ const Nav = () => {
 				)}
 
 				<div className='flex items-center gap-4'>
+					<BellIcon />
 					<ThemeSwitch />
 					{menuOpen ? (
 						<MdOutlineClose
