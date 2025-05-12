@@ -7,8 +7,9 @@ const page = () => {
 		<div>
 			<Nav />
 
-			{/* bg-[url('/assets/bg.jpg')] */}
-			<div className='relative h-screen w-full bg-background bg-no-repeat bg-center bg-cover'>
+			<div
+				className={`relative h-screen w-full bg-[url('/assets/bg.jpg')] bg-no-repeat bg-center bg-cover`}
+			>
 				<div className='  max-w-[1400px] mx-auto px-2 min-h-[80vh] flex justify-center pt-10 '>
 					<div className='bg-background backdrop-blur-md  mt-3 shadow-md border border-white/20 mx-auto p-6 w-full md:w-[35vw] min-w-[300px] rounded-md'>
 						<h1 className='text-center text-primary text-2xl font-bold pb-8'>

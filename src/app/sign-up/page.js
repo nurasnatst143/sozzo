@@ -54,7 +54,9 @@ const Page = () => {
 		<div>
 			<Nav />
 
-			<div className='relative  w-full bg-background bg-no-repeat bg-center bg-cover flex justify-center pt-14 pb-32 px-2 '>
+			<div
+				className={`relative  w-full bg-[url('/assets/bg.jpg')] bg-no-repeat bg-center bg-cover flex justify-center pt-14 pb-32 px-2`}
+			>
 				<div className='bg-black/20 backdrop-blur-md  shadow-md border border-white/20 mx-auto p-4 pb-8 w-full md:w-[35vw] min-w-[300px] rounded-md'>
 					<h1 className='text-center text-white text-2xl font-bold px-2 py-3'>
 						Sign Up
@@ -104,7 +106,7 @@ const Page = () => {
 								onClick={() => signIn("google", { callbackUrl: "/" })}
 								type='submit'
 								disabled={isLoading}
-								className='capitalize w-full bg-primary px-4 py-2 rounded-full text-lg text-background font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none disabled:opacity-60 flex justify-center items-center gap-2'
+								className='capitalize w-full bg-background px-4 py-2 rounded-full text-lg text-primary font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none disabled:opacity-60 flex justify-center items-center gap-2'
 							>
 								{isLoading ? (
 									<span className='w-5 h-5 border-2 border-t-transparent border-black rounded-full animate-spin'>
@@ -121,7 +123,7 @@ const Page = () => {
 							<button
 								type='button'
 								disabled={isLoading}
-								className='capitalize w-full bg-primary px-4 py-2 rounded-full text-md md:text-lg text-background font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none disabled:opacity-60 flex justify-center items-center gap-2'
+								className='capitalize w-full bg-background px-4 py-2 rounded-full text-md md:text-lg text-primary font-semibold hover:bg-gray-200 hover:text-gray-800 transition duration-300 focus:outline-none disabled:opacity-60 flex justify-center items-center gap-2'
 							>
 								<AiOutlineGoogle className='text-3xl text-green-500' /> Continue
 								with Google

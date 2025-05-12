@@ -52,6 +52,7 @@ const SumMenu = ({ onClose, session, status }) => {
 			items: 1,
 		},
 	};
+	console.log("session", session);
 
 	return (
 		<>
@@ -93,9 +94,9 @@ const SumMenu = ({ onClose, session, status }) => {
 											Settings
 										</Link>
 									</div>
-									{session?.user.role === "user" && (
+									{session?.user.role !== "Admin" && (
 										<div className='flex justify-end md:justify-start items-center  mb-2  w-full mr-[20px] text-xl md:text-md space-x-2 px-4'>
-											{session?.user?.points || 0} Points
+											{session?.user?.points} Points
 										</div>
 									)}
 									<div

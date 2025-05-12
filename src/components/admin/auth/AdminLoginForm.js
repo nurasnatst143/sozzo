@@ -83,7 +83,7 @@ const AdminLoginForm = () => {
 						disabled={loading}
 						className='peer relative h-4 w-4 cursor-pointer appearance-none rounded border-2 border-white checked:outline-none'
 					/>
-					<div className='pointer-events-none text-white absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 opacity-0 transition-opacity peer-checked:opacity-100'>
+					<div className='pointer-events-none text-primary absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 opacity-0 transition-opacity peer-checked:opacity-100'>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
 							className='h-3 w-3'
@@ -99,7 +99,7 @@ const AdminLoginForm = () => {
 							/>
 						</svg>
 					</div>
-					<p className='absolute top-2 left-5 -translate-y-2/4 text-white w-[120px]'>
+					<p className='absolute top-2 left-5 -translate-y-2/4 text-primary w-[120px]'>
 						Remember me
 					</p>
 				</label>

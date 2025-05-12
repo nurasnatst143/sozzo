@@ -1,7 +1,7 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import User from "../../../../../models/user";
+import User from "../../../../../models/user.js";
 import bcrypt from "bcryptjs";
 import connectDB from "../../../../../config/connectDB";
 
@@ -19,7 +19,8 @@ export const authOptions = {
 				password: { label: "Password", type: "password" },
 			},
 			async authorize(credentials) {
-				const { email, password } = credentials;
+				const email = credentials.email.toLowerCase();
+				const password = credentials.password;
 
 				if (!email || !password) {
 					throw new Error("Email and password are required.");
@@ -28,31 +29,25 @@ export const authOptions = {
 				try {
 					await connectDB();
 
-					const retriveUser = await User.findOne({ email });
+					const retriveUser = await User.findOne({ email: email });
 
-					if (!retriveUser) {
-						return null;
-					}
+					if (!retriveUser) return null;
 
-					const passMatch = await bcrypt.compare(
-						password,
-						retriveUser.password
-					);
-					if (!passMatch) {
-						return null;
-					}
+					const isMatch = await bcrypt.compare(password, retriveUser.password);
 
-					const user = {
+					if (!isMatch) return null;
+
+					return {
 						id: retriveUser._id.toString(),
-						username: retriveUser.username,
 						name: retriveUser.name,
 						email: retriveUser.email,
+						username: retriveUser.username,
 						role: retriveUser.role,
 						points: retriveUser.points,
 					};
-					return user;
 				} catch (error) {
-					console.error("Authorization error:", error);
+					console.log("hiterr");
+					console.error("Authorize error:", error);
 					return null;
 				}
 			},
@@ -60,36 +55,54 @@ export const authOptions = {
 	],
 
 	callbacks: {
-		async signIn({ user, account, profile }) {
-			await connectDB();
-
+		signIn: async ({ user, account, profile }) => {
 			if (account.provider === "google") {
+				await connectDB();
 				const existingUser = await User.findOne({ email: user.email });
 
 				if (!existingUser) {
-					await User.create({
+					// Create new user if not found
+					const username =
+						user.name?.split(" ")[0].toLowerCase() +
+						Math.floor(Math.random() * 1000);
+					const newUser = await User.create({
 						authProvider: "google",
 						googleId: account.providerAccountId,
 						email: user.email,
-						emailVerified: true,
 						name: user.name,
+						username,
 						image: user.image,
+						emailVerified: true,
+						role: "user",
 						points: 100,
 					});
+
+					// Enrich `user` object
+					user.id = newUser._id.toString();
+					user.username = newUser.username;
+					user.role = newUser.role;
+					user.points = newUser.points;
+				} else {
+					user.id = existingUser._id.toString();
+					user.username = existingUser.username;
+					user.role = existingUser.role;
+					user.points = existingUser.points;
+					user.image = existingUser.image;
 				}
 			}
 
-			return true; // Allow sign in
+			return true; // Important: allows login to continue
 		},
 
-		async jwt({ token, user, account, profile }) {
+		async jwt({ token, user }) {
 			if (user) {
-				token.name = user.name || profile?.name;
-				token.email = user.email || profile?.email;
-				token.username = user.username || profile?.given_name;
-				token.role = user.role || "user";
-				token.points = user.points || 0;
-				token.image = user.image || profile?.picture;
+				token.id = user.id;
+				token.name = user.name;
+				token.email = user.email;
+				token.username = user.username;
+				token.role = user.role;
+				token.image = user.image;
+				token.points = user.points;
 			}
 			return token;
 		},
@@ -97,7 +110,7 @@ export const authOptions = {
 		async session({ session, token }) {
 			if (token) {
 				session.user = {
-					...session.user,
+					id: token.id,
 					name: token.name,
 					email: token.email,
 					username: token.username,
