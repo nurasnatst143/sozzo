@@ -65,7 +65,7 @@ const userSchema = new Schema(
 
 		role: {
 			type: String,
-			default: "Reader",
+			default: "user",
 		},
 		status: {
 			type: String,

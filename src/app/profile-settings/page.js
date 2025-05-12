@@ -1,5 +1,7 @@
 "use client";
 
+import Footer from "@/components/Footer";
+import Nav from "@/components/nav/Nav";
 import { useSession } from "next-auth/react";
 import { useState, useRef } from "react";
 
@@ -72,7 +74,7 @@ export default function ProfilePage() {
 			data.append("image", formData.image);
 		}
 
-		const res = await fetch("/api/profile/update", {
+		const res = await fetch("/api/user/profile-update", {
 			method: "PUT",
 			body: data,
 		});
@@ -89,118 +91,134 @@ export default function ProfilePage() {
 	if (!user) return <p className='text-center mt-10'>Loading...</p>;
 
 	return (
-		<div className='min-h-screen flex items-center justify-center bg-background px-4'>
-			<div className='bg-card text-card-foreground shadow-xl rounded-2xl p-8 max-w-md w-full text-center'>
-				<div className='flex justify-center mb-4'>
-					<img
-						src={user.image || "/default-avatar.png"}
-						alt='Profile'
-						className='w-24 h-24 rounded-full border-4 border-primary object-cover'
-					/>
+		<>
+			<Nav />
+			<div
+				className={`min-h-screen flex items-center  justify-center bg-[url('/assets/bg.jpg')] bg-no-repeat bg-center  px-4`}
+			>
+				<div className='bg-card text-card-foreground shadow-xl rounded-2xl p-8 max-w-md w-full text-center'>
+					<div className='flex justify-center mb-4'>
+						<img
+							src={user.image || "/default-avatar.png"}
+							alt='Profile'
+							className='w-24 h-24 rounded-full border-4 border-primary object-cover'
+						/>
+					</div>
+					<h1 className='text-2xl font-semibold'>{user.name}</h1>
+					<p className='text-muted-foreground text-sm'>{user.email}</p>
+					<p className='text-muted-foreground text-sm'>
+						@{user.username || "username"}
+					</p>
+					<p className='text-sm mt-2'>
+						<span className='font-medium text-primary'>Points:</span>{" "}
+						{user.points || 0}
+					</p>
+					<button
+						onClick={() => setShowModal(true)}
+						className='mt-4 px-5 py-2 rounded-md bg-primary text-primary-foreground hover:opacity-90'
+					>
+						Edit Profile
+					</button>
 				</div>
-				<h1 className='text-2xl font-semibold'>{user.name}</h1>
-				<p className='text-muted-foreground text-sm'>{user.email}</p>
-				<p className='text-muted-foreground text-sm'>
-					@{user.username || "username"}
-				</p>
-				<p className='text-sm mt-2'>
-					<span className='font-medium text-primary'>Points:</span>{" "}
-					{user.points || 0}
-				</p>
-				<button
-					onClick={() => setShowModal(true)}
-					className='mt-4 px-5 py-2 rounded-md bg-primary text-primary-foreground hover:opacity-90'
-				>
-					Edit Profile
-				</button>
-			</div>
 
-			{showModal && (
-				<div className='fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50'>
-					<div className='relative bg-card text-card-foreground p-6 rounded-xl w-full max-w-md shadow-xl'>
-						<h2 className='text-lg font-semibold mb-6'>Update Profile</h2>
+				{showModal && (
+					<div className='fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50'>
+						<div className='relative bg-card text-card-foreground p-6 rounded-xl w-full max-w-md shadow-xl'>
+							<h2 className='text-lg font-semibold mb-6'>Update Profile</h2>
 
-						<div className='space-y-4'>
-							<input
-								name='name'
-								value={formData.name}
-								onChange={handleChange}
-								placeholder='Full Name'
-								className='w-full p-3 rounded-md border bg-input text-foreground border-border'
-							/>
-							<input
-								name='username'
-								value={formData.username}
-								onChange={handleChange}
-								placeholder='Username'
-								className='w-full p-3 rounded-md border bg-input text-foreground border-border'
-							/>
-
-							{/* Image upload */}
-							<div>
-								<label className='block mb-1 font-medium'>Profile Image</label>
+							<div className='space-y-4'>
 								<input
-									ref={imageInputRef}
-									type='file'
-									accept='image/*'
-									onChange={handleImageChange}
-									className='block w-full text-sm text-muted-foreground'
-								/>
-								{formData.imagePreview && (
-									<img
-										src={formData.imagePreview}
-										alt='Preview'
-										className='mt-2 w-20 h-20 rounded-full object-cover border'
-									/>
-								)}
-							</div>
-
-							<div>
-								<label className='block mb-1 font-medium'>Interests</label>
-								<select
-									name='interests'
-									multiple
-									value={formData.interests}
-									onChange={handleInterestsChange}
-									className='w-full p-3 rounded-md border bg-input text-foreground border-border'
-								>
-									{defaultInterests.map((interest) => (
-										<option key={interest} value={interest}>
-											{interest}
-										</option>
-									))}
-								</select>
-							</div>
-
-							{/* Notifications */}
-							<label className='flex items-center gap-2'>
-								<input
-									type='checkbox'
-									name='notificationsEnabled'
-									checked={formData.notificationsEnabled}
+									name='name'
+									value={formData.name}
 									onChange={handleChange}
+									placeholder='Full Name'
+									className='w-full p-3 rounded-md border bg-input text-foreground border-border'
 								/>
-								<span>Enable Notifications</span>
-							</label>
-						</div>
+								<input
+									name='username'
+									value={formData.username}
+									onChange={handleChange}
+									placeholder='Username'
+									className='w-full p-3 rounded-md border bg-input text-foreground border-border'
+								/>
 
-						<div className='flex justify-end gap-3 mt-6'>
-							<button
-								onClick={() => setShowModal(false)}
-								className='px-4 py-2 rounded-md bg-muted text-muted-foreground hover:opacity-90'
-							>
-								Cancel
-							</button>
-							<button
-								onClick={handleUpdate}
-								className='px-4 py-2 rounded-md bg-primary text-primary-foreground hover:opacity-90'
-							>
-								Save
-							</button>
+								{/* Image upload */}
+								<div>
+									<label className='block mb-1 font-medium'>
+										Profile Image
+									</label>
+									<input
+										ref={imageInputRef}
+										type='file'
+										accept='image/*'
+										onChange={handleImageChange}
+										className='block w-full text-sm text-muted-foreground'
+									/>
+									{formData.imagePreview && (
+										<img
+											src={formData.imagePreview}
+											alt='Preview'
+											className='mt-2 w-20 h-20 rounded-full object-cover border'
+										/>
+									)}
+								</div>
+
+								<div>
+									<label className='block mb-1 font-medium'>Interests</label>
+									<div className='grid grid-cols-2 gap-2'>
+										{defaultInterests.map((interest) => (
+											<label key={interest} className='flex items-center gap-2'>
+												<input
+													type='checkbox'
+													value={interest}
+													checked={formData.interests.includes(interest)}
+													onChange={(e) => {
+														const { checked, value } = e.target;
+														setFormData((prev) => {
+															const interests = checked
+																? [...prev.interests, value]
+																: prev.interests.filter((i) => i !== value);
+															return { ...prev, interests };
+														});
+													}}
+												/>
+												<span>{interest}</span>
+											</label>
+										))}
+									</div>
+								</div>
+
+								{/* Notifications */}
+								<label className='flex items-center gap-2'>
+									<input
+										type='checkbox'
+										name='notificationsEnabled'
+										checked={formData.notificationsEnabled}
+										onChange={handleChange}
+									/>
+									<span>Enable Notifications</span>
+								</label>
+							</div>
+
+							<div className='flex justify-end gap-3 mt-6'>
+								<button
+									onClick={() => setShowModal(false)}
+									className='px-4 py-2 rounded-md bg-muted text-muted-foreground hover:opacity-90'
+								>
+									Cancel
+								</button>
+								<button
+									onClick={handleUpdate}
+									className='px-4 py-2 rounded-md bg-primary text-primary-foreground hover:opacity-90'
+								>
+									Save
+								</button>
+							</div>
 						</div>
 					</div>
-				</div>
-			)}
-		</div>
+				)}
+			</div>
+			<Footer />
+		</>
 	);
 }
