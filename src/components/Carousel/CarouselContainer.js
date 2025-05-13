@@ -5,13 +5,8 @@ import Slide from "./Slide";
 import carouselReducer from "./carouselReducer";
 import SlideNav from "./SlideNav";
 import SlideNavItem from "./SlideNavItem";
-import { getCarouselData } from "@/utils/utils";
 
-const CarouselContainer = () => {
-	const [slideData, setSlideData] = useState({
-		data: [],
-		status: "loading",
-	});
+const CarouselContainer = ({ slideData }) => {
 	const SLIDE_DURATION = 10000;
 	const [state, dispatch] = useReducer(carouselReducer, {
 		currentIndex: 0,
@@ -21,11 +16,11 @@ const CarouselContainer = () => {
 	useEffect(() => {
 		if (state.isPlaying) {
 			let timeout = setTimeout(() => {
-				dispatch({ type: "PROGRESS", length: slideData.data.length });
+				dispatch({ type: "PROGRESS", length: slideData.length });
 			}, SLIDE_DURATION);
 			return () => clearTimeout(timeout);
 		}
-	}, [state.currentIndex, state.isPlaying, slideData.data]);
+	}, [state.currentIndex, state.isPlaying, slideData]);
 
 	useEffect(() => {
 		if (state.takeFocus) {
@@ -33,14 +28,10 @@ const CarouselContainer = () => {
 		}
 	}, [state.takeFocus]);
 
-	useEffect(() => {
-		getCarouselData(setSlideData);
-	}, []);
-
 	return (
 		<div className='absolute top-0 left-0 right-0 bottom-0 h-screen'>
 			<Slides>
-				{slideData.data.map((data, index) => (
+				{slideData?.map((data, index) => (
 					<Slide
 						key={index}
 						id={`image-${index}`}
@@ -51,7 +42,7 @@ const CarouselContainer = () => {
 					/>
 				))}
 				<SlideNav>
-					{slideData.data.map((slide, index) => (
+					{slideData?.map((slide, index) => (
 						<SlideNavItem
 							key={index}
 							isCurrent={index === state.currentIndex}

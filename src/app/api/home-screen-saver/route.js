@@ -4,6 +4,17 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/route";
 import cloudinary from "../../../../config/cloudinary";
 
+import { getHomeScreenSaver } from "@/lib/home-screen-saver";
+
+export const GET = async () => {
+	try {
+		const video = await getHomeScreenSaver();
+		return new Response(JSON.stringify({ video }), { status: 200 });
+	} catch (err) {
+		return new Response("Error fetching video", { status: 500 });
+	}
+};
+
 export const POST = async (request) => {
 	try {
 		const session = await getServerSession(authOptions);
@@ -59,15 +70,5 @@ export const POST = async (request) => {
 	} catch (error) {
 		console.error(error);
 		return new Response("Video upload failed", { status: 500 });
-	}
-};
-
-export const GET = async () => {
-	try {
-		await connectDB();
-		const video = await ScreenSaver.findOne();
-		return new Response(JSON.stringify({ video }), { status: 200 });
-	} catch (err) {
-		return new Response("Error fetching video", { status: 500 });
 	}
 };

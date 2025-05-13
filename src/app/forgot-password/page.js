@@ -37,8 +37,10 @@ export default function ForgotPasswordPage() {
 	};
 
 	return (
-		<div className='min-h-screen flex items-center justify-center bg-background px-4'>
-			<div className='w-full max-w-md bg-background shadow-lg rounded-2xl p-8 space-y-6 border border-neutral'>
+		<div
+			className={`min-h-screen flex items-center justify-center bg-[url('/assets/bg.jpg')] bg-no-repeat bg-center bg-cover px-4`}
+		>
+			<div className='w-full max-w-md bg-black/20 backdrop-blur-md shadow-lg rounded-2xl p-8 space-y-6 border border-neutral'>
 				<h1 className='text-2xl font-semibold text-center text-primary'>
 					Forgot Password
 				</h1>
@@ -50,7 +52,7 @@ export default function ForgotPasswordPage() {
 					<div>
 						<label
 							htmlFor='email'
-							className='block text-sm font-medium text-gray-700'
+							className='block text-sm font-medium text-white'
 						>
 							Email Address
 						</label>
@@ -60,7 +62,7 @@ export default function ForgotPasswordPage() {
 							required
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
-							className='mt-1 w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary'
+							className='mt-1 text-black w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary'
 							placeholder='you@example.com'
 						/>
 					</div>

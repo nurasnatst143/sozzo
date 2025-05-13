@@ -56,14 +56,14 @@ const SumMenu = ({ onClose, session, status }) => {
 
 	return (
 		<>
-			<div className='fixed w-full h-full  top-0 left-0 overflow-x-hidden bg-background transition-transform duration-300 ease-out z-[200] bg-custom-gradient '>
+			<div className='fixed w-full h-full  top-0 left-0 overflow-x-hidden bg-custom-gradient  transition-transform duration-300 ease-out z-[200]  '>
 				<div className='flex justify-between py-2 px-14 bg-sky dark:bg-gray-700'>
 					<div>
 						<Link href='/'>
 							<Image src={BrandLogo} width={50} height={50} alt='logo' />
 						</Link>
 					</div>
-					<div className='text-2xl flex items-center gap-4 text-black dark:text-white'>
+					<div className='text-2xl flex items-center gap-4 text-primary dark:text-white'>
 						<button type='button' onClick={() => onClose()}>
 							<MdOutlineClose className='text-2xl   cursor-pointer' />
 						</button>
@@ -110,10 +110,10 @@ const SumMenu = ({ onClose, session, status }) => {
 								<>
 									<div className=' flex justify-end md:justify-start items-center  mb-[30px]  w-full mr-[20px] text-xl md:text-md space-x-2 px-4'>
 										<span>
-											<FaUser className='w-[18px] h-[18px] text-white' />
+											<FaUser className='w-[18px] h-[18px] text-primary' />
 										</span>
 										<Link href='/login'>
-											<button type='button' className='pl-3 text-white'>
+											<button type='button' className='pl-3 text-primary'>
 												Sign In
 											</button>
 										</Link>
@@ -124,16 +124,16 @@ const SumMenu = ({ onClose, session, status }) => {
 							<div className='flex  md:flex-col lg:flex-row gap-10'>
 								<div className='relative flex-1 w-full lg:w-1/2  '>
 									<div className='hidden md:flex items-center mb-[14px]'>
-										<h2 className='tracking-[.41em] text-[13px] font-bold text-black dark:text-white mr-2 '>
+										<h2 className='tracking-[.41em] text-[13px] font-bold text-primary  mr-2 '>
 											CATEGORIES
 										</h2>
 										<span className='h-[1px] bg-background flex-1'></span>
 									</div>
-									<div className='flex flex-col md:flex-row flex-wrap items-center md:items-start justify-between w-full text-black dark:text-white '>
+									<div className='flex flex-col md:flex-row flex-wrap items-center md:items-start justify-between w-full text-primary dark:text-white '>
 										{categories &&
 											categories.length > 0 &&
 											categories.map((category) => (
-												<div key={category.id} className='w-1/3'>
+												<div key={category._id} className='w-1/3'>
 													<Link
 														className='hover:scale-[1.05] transition-transform text-xl  md:text-lg font-bold leading-6 no-underline mb-5 block duration-150  ease-in-out  font-sans'
 														role='presentation'
@@ -148,12 +148,12 @@ const SumMenu = ({ onClose, session, status }) => {
 								<div className='hidden lg:block w-[1px] bg-gray-200 dark:bg-gray-700 self-stretch mx-4 h-20 mt-8'></div>
 								<div className='flex-1 w-full lg:w-1/2 pl-0 lg:pl-[34px] hidden md:block'>
 									<div className='flex items-center mb-[14px]'>
-										<h2 className='tracking-[.41em] text-[13px] pr-4 font-bold text-black dark:text-white'>
+										<h2 className='tracking-[.41em] text-[13px] pr-4 font-bold text-primary '>
 											OUR CHANNELS
 										</h2>
 										<span className='h-[1px] bg-background flex-1'></span>
 									</div>
-									<div className='flex flex-wrap justify-between category_items text-black dark:text-white'>
+									<div className='flex flex-wrap justify-between category_items text-primary '>
 										{socials.map((social) => (
 											<div key={social.id} className='w-1/3'>
 												<a
@@ -174,10 +174,10 @@ const SumMenu = ({ onClose, session, status }) => {
 				</div>
 
 				<div className='mx-auto max-w-[75%] mb-11 hidden md:block'>
-					<div className='mb-2 lg:mb-[30px] lg:text-[22px] text-base lg:text-[#e0dede] text-white font-bold'>
+					<div className='mb-2 lg:mb-[30px] lg:text-[22px] text-base light:text-[#e0dede] text-primary font-bold'>
 						<div className='hidden lg:block max-w-2xl mb-9'>
 							<div className='flex pt-4 pr-4 pb-2 flex-1 items-center'>
-								<span className='pr-3 lg:uppercase text-black dark:text-white text-lg lg:text-[13px] lg:tracking-[4px] font-bold leading-[20px]'>
+								<span className='pr-3 lg:uppercase text-primary  text-lg lg:text-[13px] lg:tracking-[4px] font-bold leading-[20px]'>
 									Viral posts
 								</span>
 								<span className='bg-[#ffec41] h-[2px] flex-1 hidden lg:inline-block'></span>
@@ -275,7 +275,7 @@ const SumMenu = ({ onClose, session, status }) => {
 				</div>
 
 				<div className='hidden md:flex justify-between max-w-[75%] mx-auto'>
-					<div className='flex justify-between flex-wrap w-[70%] tracking-[.235em] text-black dark:text-white'>
+					<div className='flex justify-between flex-wrap w-[70%] tracking-[.235em] text-primary dark:text-white'>
 						<Link
 							className='w-[33%] mb-[10px] hover:scale-[1.05] transition-transform text-sm  '
 							href='/about-us'

@@ -11,8 +11,7 @@ module.exports = {
 				"gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
 				"gradient-conic":
 					"conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-				"custom-gradient":
-					"linear-gradient(108.34deg, rgb(255, 179, 65) 1.02%, rgb(255, 34, 114) 99.43%)",
+				"custom-gradient": "var(--bg-custom-gradiant)",
 			},
 			borderRadius: {
 				lg: "var(--radius)",

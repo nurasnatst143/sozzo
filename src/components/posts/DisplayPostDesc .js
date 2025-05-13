@@ -59,7 +59,7 @@ const DisplayPostDesc = () => {
 
 	return (
 		<div className='max-w-[1400px] mx-auto px-2'>
-			<div className='bg-sky-50 dark:bg-gray-600 rounded-md py-10'>
+			<div className='bg-background rounded-md py-10'>
 				<div className='flex justify-center mb-10'>
 					<Image
 						src={news.data.image.imageurl}
@@ -68,7 +68,7 @@ const DisplayPostDesc = () => {
 						height={600}
 					/>
 				</div>
-				<div className='px-10 text-black'>
+				<div className='px-10'>
 					<h1 className='text-2xl font-bold mb-5 text-primary '>
 						{news.data.title}
 					</h1>

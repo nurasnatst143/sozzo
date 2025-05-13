@@ -1,16 +1,13 @@
-import connectDB from '../../../../../config/connectDB';
-import Post from '../../../../../models/post';
+import { getFeaturedPosts } from "@/lib/featured-posts";
 
 export const GET = async () => {
-  try {
-    await connectDB();
+	try {
+		const posts = await getFeaturedPosts();
 
-    const posts = await Post.find({ featured: true });
-
-    return new Response(JSON.stringify({ posts }), {
-      status: 200,
-    });
-  } catch (error) {
-    return new Response('Something went wrong', { status: 500 });
-  }
+		return new Response(JSON.stringify({ posts }), {
+			status: 200,
+		});
+	} catch (error) {
+		return new Response("Something went wrong", { status: 500 });
+	}
 };

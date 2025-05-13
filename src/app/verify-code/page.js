@@ -27,8 +27,10 @@ export default function VerifyCodePage() {
 	};
 
 	return (
-		<div className='min-h-screen flex items-center justify-center bg-background px-4'>
-			<div className='w-full max-w-md bg-background shadow-lg rounded-2xl p-8 space-y-6 border border-neutral'>
+		<div
+			className={`min-h-screen flex items-center justify-center bg-[url('/assets/bg.jpg')] bg-no-repeat bg-center bg-cover px-4`}
+		>
+			<div className='w-full max-w-md bg-black/20 backdrop-blur-md shadow-lg rounded-2xl p-8 space-y-6 border border-neutral'>
 				<h1 className='text-2xl font-semibold text-center text-primary'>
 					Verify Reset Code
 				</h1>

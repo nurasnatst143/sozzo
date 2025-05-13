@@ -15,14 +15,19 @@ export const POST = async (request) => {
 		const email = body.email;
 		const username = email.split("@")[0];
 		const userData = {
+			authProvider: "email",
+			googleId: null,
 			username,
 			name,
 			email,
+			image: null,
 			password: hashedPass,
 			role: body.role === "admin" ? "admin" : "user",
 			status: "pending",
 			points: body.role === "admin" ? null : 100,
+			emailVerified: false,
 		};
+
 		console.log("LINE AT 10 sign-up api", userData);
 
 		const res = await User.create(userData);

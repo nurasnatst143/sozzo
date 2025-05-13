@@ -1,13 +1,11 @@
-import connectDB from "../../../../../config/connectDB";
-
+import { getHeadlinePosts } from "@/lib/headlines";
 import { revalidatePath } from "next/cache";
-import Post from "../../../../../models/post";
 
 export const GET = async (request) => {
 	try {
-		await connectDB();
-		const headlines = await Post.find({ isHeadLine: true }).lean().exec();
-		const path = request.nextUrl.searchParams.get("path");
+		const path = new URL(request.url).searchParams.get("path");
+
+		const headlines = await getHeadlinePosts();
 
 		if (path) {
 			revalidatePath(path);
