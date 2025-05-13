@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import Footer from "@/components/Footer";
+import Nav from "@/components/nav/Nav";
 
 export default function ResetPasswordPage() {
 	const [newPassword, setNewPassword] = useState("");
@@ -42,38 +44,44 @@ export default function ResetPasswordPage() {
 	};
 
 	return (
-		<div className='min-h-screen flex items-center justify-center bg-background px-4'>
-			<div className='w-full max-w-md bg-background shadow-lg rounded-2xl p-8 space-y-6 border border-neutral'>
-				<h1 className='text-2xl font-semibold text-center text-primary'>
-					Reset Password
-				</h1>
-				<form onSubmit={handleSubmit} className='space-y-4'>
-					<input
-						type='password'
-						required
-						placeholder='New password'
-						value={newPassword}
-						onChange={(e) => setNewPassword(e.target.value)}
-						className='w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary'
-					/>
-					<input
-						type='password'
-						required
-						placeholder='Confirm password'
-						value={confirmPassword}
-						onChange={(e) => setConfirmPassword(e.target.value)}
-						className='w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary'
-					/>
-					<button
-						type='submit'
-						className='w-full bg-sky text-white py-2 rounded-lg hover:bg-sky-400 transition'
-					>
+		<>
+			<Nav />
+			<div className='min-h-screen flex items-center justify-center bg-background px-4'>
+				<div className='w-full max-w-md bg-background shadow-lg rounded-2xl p-8 space-y-6 border border-neutral text-white'>
+					<h1 className='text-2xl font-semibold text-center text-white'>
 						Reset Password
-					</button>
-				</form>
+					</h1>
+					<form onSubmit={handleSubmit} className='space-y-4'>
+						<input
+							type='password'
+							required
+							placeholder='New password'
+							value={newPassword}
+							onChange={(e) => setNewPassword(e.target.value)}
+							className='w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary'
+						/>
+						<input
+							type='password'
+							required
+							placeholder='Confirm password'
+							value={confirmPassword}
+							onChange={(e) => setConfirmPassword(e.target.value)}
+							className='w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary'
+						/>
+						<button
+							type='submit'
+							className='w-full bg-sky text-white py-2 rounded-lg hover:bg-sky-400 transition'
+						>
+							Reset Password
+						</button>
+					</form>
 
-				{message && <p className='text-center text-sm text-error'>{message}</p>}
+					{message && (
+						<p className='text-center text-sm text-error'>{message}</p>
+					)}
+				</div>
 			</div>
-		</div>
+			<Footer />
+		</>
 	);
 }

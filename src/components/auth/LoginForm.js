@@ -49,7 +49,7 @@ const LoginForm = () => {
 				onSubmit={handleSubmit}
 			>
 				<div className='relative'>
-					<IoMdMail className='absolute right-3 top-3 z-10 text-primary' />
+					<IoMdMail className='absolute right-3 top-3 z-10 text-white' />
 					<input
 						type='text'
 						name='email'
@@ -60,7 +60,7 @@ const LoginForm = () => {
 					/>
 				</div>
 				<div className='relative'>
-					<FaLock className='absolute right-3 top-3 z-10 text-primary' />
+					<FaLock className='absolute right-3 top-3 z-10 text-white' />
 					<input
 						type='password'
 						name='password'
@@ -82,7 +82,7 @@ const LoginForm = () => {
 								id='remember'
 								className='peer relative h-4 w-4 appearance-none rounded border-2 border-white cursor-pointer'
 							/>
-							<div className='pointer-events-none text-primary absolute right-3 top-3 -translate-y-2/4 -translate-x-2/4 opacity-0 transition-opacity peer-checked:opacity-100'>
+							<div className='pointer-events-none text-white absolute right-3 top-3 -translate-y-2/4 -translate-x-2/4 opacity-0 transition-opacity peer-checked:opacity-100'>
 								<svg
 									xmlns='http://www.w3.org/2000/svg'
 									className='h-3 w-3'
@@ -98,20 +98,20 @@ const LoginForm = () => {
 									></path>
 								</svg>
 							</div>
-							<p className='absolute top-2 left-5 -translate-y-2/4 text-primary w-[120px]'>
+							<p className='absolute top-2 left-5 -translate-y-2/4 text-white w-[120px]'>
 								Remember me
 							</p>
 						</label>
 					</div>
 					<Link href={"/forgot-password"}>
-						<p className='text-sm text-primary underline'>Forgot password?</p>
+						<p className='text-sm text-white underline'>Forgot password?</p>
 					</Link>
 				</div>
 				<div className='flex mx-auto w-full mt-8'>
 					<button
 						type='submit'
 						disabled={loading}
-						className='capitalize w-full bg-primary px-4 py-2 rounded-full text-md md:text-lg text-background font-semibold hover:bg-background border hover:text-primary transition duration-300 focus:outline-none disabled:opacity-60'
+						className='capitalize w-full bg-primary px-4 py-2 rounded-full text-md md:text-lg text-background font-semibold hover:bg-background border hover:text-white transition duration-300 focus:outline-none disabled:opacity-60'
 					>
 						login
 					</button>
@@ -122,13 +122,13 @@ const LoginForm = () => {
 					<button
 						onClick={() => signIn("google", { callbackUrl: "/" })}
 						disabled={loading}
-						className='capitalize w-full bg-primary px-4 py-2 rounded-full text-md md:text-lg text-background font-semibold hover:bg-background border hover:text-primary transition duration-300 focus:outline-none disabled:opacity-60 flex justify-center items-center gap-2'
+						className='capitalize w-full bg-primary px-4 py-2 rounded-full text-md md:text-lg text-background font-semibold hover:bg-background border hover:text-white transition duration-300 focus:outline-none disabled:opacity-60 flex justify-center items-center gap-2'
 					>
 						<AiOutlineGoogle className='text-3xl text-green-500' /> Continue
 						with google
 					</button>
 				</div>
-				<div className='flex mx-auto w-full text-primary'>
+				<div className='flex mx-auto w-full text-white'>
 					<p className='text-md w-full text-center'>
 						Don't have an account?{" "}
 						<Link href='/sign-up' className='font-bold'>

@@ -12,7 +12,7 @@ const page = () => {
 			>
 				<div className='  max-w-[1400px] mx-auto px-2 flex justify-center pt-10 '>
 					<div className='bg-black/20 backdrop-blur-md  mt-3 shadow-md border border-white/20 mx-auto p-6 w-full md:w-[35vw] min-w-[300px] rounded-md'>
-						<h1 className='text-center text-primary text-2xl font-bold pb-8'>
+						<h1 className='text-center text-white text-2xl font-bold pb-8'>
 							Login
 						</h1>
 						<LoginForm />

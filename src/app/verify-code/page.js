@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Footer from "@/components/Footer";
+import Nav from "@/components/nav/Nav";
 
 export default function VerifyCodePage() {
 	const [email, setEmail] = useState("");
@@ -27,44 +29,50 @@ export default function VerifyCodePage() {
 	};
 
 	return (
-		<div
-			className={`min-h-screen flex items-center justify-center bg-[url('/assets/bg.jpg')] bg-no-repeat bg-center bg-cover px-4`}
-		>
-			<div className='w-full max-w-md bg-black/20 backdrop-blur-md shadow-lg rounded-2xl p-8 space-y-6 border border-neutral'>
-				<h1 className='text-2xl font-semibold text-center text-primary'>
-					Verify Reset Code
-				</h1>
-				<p className='text-sm text-center '>
-					Check your email and enter the 6-digit code
-				</p>
+		<>
+			<Nav />
+			<div
+				className={`min-h-screen flex items-center justify-center bg-[url('/assets/bg.jpg')] bg-no-repeat bg-center bg-cover px-4`}
+			>
+				<div className='w-full max-w-md bg-black/20 backdrop-blur-md shadow-lg rounded-2xl p-8 space-y-6 border border-neutral text-white'>
+					<h1 className='text-2xl font-semibold text-center text-white'>
+						Verify Reset Code
+					</h1>
+					<p className='text-sm text-white text-center '>
+						Check your email and enter the 6-digit code
+					</p>
 
-				<form onSubmit={handleSubmit} className='space-y-4'>
-					<input
-						type='email'
-						required
-						placeholder='Your email'
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-						className='w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary'
-					/>
-					<input
-						type='text'
-						required
-						placeholder='6-digit code'
-						value={code}
-						onChange={(e) => setCode(e.target.value)}
-						className='w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary'
-					/>
-					<button
-						type='submit'
-						className='w-full bg-sky text-white py-2 rounded-lg hover:bg-sky-400 transition'
-					>
-						Verify Code
-					</button>
-				</form>
+					<form onSubmit={handleSubmit} className='space-y-4'>
+						<input
+							type='email'
+							required
+							placeholder='Your email'
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+							className='w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary'
+						/>
+						<input
+							type='text'
+							required
+							placeholder='6-digit code'
+							value={code}
+							onChange={(e) => setCode(e.target.value)}
+							className='w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary'
+						/>
+						<button
+							type='submit'
+							className='w-full bg-sky text-white py-2 rounded-lg hover:bg-sky-400 transition'
+						>
+							Verify Code
+						</button>
+					</form>
 
-				{message && <p className='text-center text-sm text-error'>{message}</p>}
+					{message && (
+						<p className='text-center text-sm text-white'>{message}</p>
+					)}
+				</div>
 			</div>
-		</div>
+			<Footer />
+		</>
 	);
 }
