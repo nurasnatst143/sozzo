@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/route";
 import cloudinary from "../../../../config/cloudinary";
 
-import { getHomeScreenSaver } from "@/lib/home-screen-saver";
+import { getHomeScreenSaver } from "../../../lib/home-screen-saver";
 
 export const GET = async () => {
 	try {

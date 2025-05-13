@@ -1,4 +1,4 @@
-import { getHeadlinePosts } from "@/lib/headlines";
+import { getHeadlinePosts } from "../../../../lib/headline";
 import { revalidatePath } from "next/cache";
 
 export const GET = async (request) => {

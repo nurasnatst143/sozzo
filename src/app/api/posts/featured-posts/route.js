@@ -1,4 +1,4 @@
-import { getFeaturedPosts } from "@/lib/featured-posts";
+import { getFeaturedPosts } from "../../../../lib/featured-posts";
 
 export const GET = async () => {
 	try {
