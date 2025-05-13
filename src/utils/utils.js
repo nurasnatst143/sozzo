@@ -1,11 +1,13 @@
 import axios from "axios";
 
-export const getPosts = async (cb) => {
-	const res = await axios.get(`/api/posts/all-posts`);
-	if (res.status === 200) {
-		cb(res.data.posts);
-	} else {
-		cb([]);
+export const getPosts = async (page = 1, limit = 10) => {
+	try {
+		const res = await fetch(`/api/posts/all-posts?page=${page}&limit=${limit}`);
+		const data = await res.json();
+		return data;
+	} catch (err) {
+		console.error("Failed to fetch posts:", err);
+		return { posts: [], pagination: {} };
 	}
 };
 

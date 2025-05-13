@@ -3,8 +3,8 @@ import { useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 
-function CommentForm({ news, setPost, messageForm, setMessageForm }) {
-	const comments = news.comments;
+function CommentForm({ news, messageForm, setMessageForm }) {
+	let [comments, setComments] = useState(news?.comments || []);
 	const [newComment, setNewComment] = useState("");
 
 	const handleSubmit = async (e) => {
@@ -13,8 +13,8 @@ function CommentForm({ news, setPost, messageForm, setMessageForm }) {
 			message: newComment,
 			id: news._id,
 		});
-		const comments = res.data.comments;
-		setPost((x) => ({ ...x, data: { ...x.data, comments } }));
+		const commentsres = res.data.comments;
+		setComments((x) => [...x, commentsres]);
 		setNewComment("");
 		setMessageForm(false);
 	};

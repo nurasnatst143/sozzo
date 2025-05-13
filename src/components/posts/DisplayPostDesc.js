@@ -1,8 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { getPost } from "@/utils/utils";
-import { useParams } from "next/navigation";
+
 import { FaHeart, FaMessage } from "react-icons/fa6";
 import CommentForm from "./CommentForm";
 import axios from "axios";
@@ -10,28 +9,11 @@ import { useSession } from "next-auth/react";
 import Like from "@/components/posts/Like";
 import { useRouter } from "next/navigation";
 
-const DisplayPostDesc = () => {
+const DisplayPostDesc = ({ news }) => {
 	const session = useSession();
 	const router = useRouter();
-	const params = useParams();
-	const [news, setNews] = useState({
-		data: [],
-		status: "loading",
-	});
 
 	const [messageForm, setMessageForm] = useState(false);
-
-	useEffect(() => {
-		getPost(setNews, params.id);
-	}, []);
-
-	if (news.status === "loading") {
-		return (
-			<div className='text-xl font-semibold text-center py-10 min-h-[80vh]'>
-				Loading...
-			</div>
-		);
-	}
 
 	const handleLike = async () => {
 		if (session.status === "unauthenticated") {
@@ -42,7 +24,7 @@ const DisplayPostDesc = () => {
 			{},
 			{
 				headers: {
-					Id: news.data._id,
+					Id: news?._id,
 				},
 			}
 		);
@@ -62,7 +44,7 @@ const DisplayPostDesc = () => {
 			<div className='bg-background rounded-md py-10'>
 				<div className='flex justify-center mb-10'>
 					<Image
-						src={news.data.image.imageurl}
+						src={news?.image.imageurl}
 						alt='main photo'
 						width={600}
 						height={600}
@@ -70,17 +52,17 @@ const DisplayPostDesc = () => {
 				</div>
 				<div className='px-10'>
 					<h1 className='text-2xl font-bold mb-5 text-primary '>
-						{news.data.title}
+						{news?.title}
 					</h1>
 					<div
 						className='text-lg text-primary'
 						dangerouslySetInnerHTML={{
-							__html: news.data.description.replace(/ style="[^"]*"/g, ""),
+							__html: news?.description.replace(/ style="[^"]*"/g, ""),
 						}}
 					/>
 				</div>
 				<div className='px-10 py-5 flex gap-5'>
-					<Like handleLike={handleLike} session={session} news={news.data} />
+					<Like handleLike={handleLike} session={session} news={news} />
 					<FaMessage
 						className='text-2xl cursor-pointer'
 						onClick={() => {
@@ -93,8 +75,7 @@ const DisplayPostDesc = () => {
 				</div>
 				<div>
 					<CommentForm
-						news={news.data}
-						setPost={setNews}
+						news={news}
 						messageForm={messageForm}
 						setMessageForm={setMessageForm}
 						session={session}

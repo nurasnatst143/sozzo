@@ -6,41 +6,62 @@ export const GET = async (request) => {
 	try {
 		await connectDB();
 
-		const posts = await Post.aggregate([
-			{ $sort: { isPined: -1, createdAt: -1 } },
-			{
-				$project: {
-					title: 1,
-					description: 1,
-					category: 1,
-					featured: 1,
-					viralPost: 1,
-					isHeadLine: 1,
-					isPined: 1,
-					image: 1,
-					createdAt: 1,
-					updatedAt: 1,
-					likeCount: { $size: "$likes" },
-					commentCount: { $size: "$comments" },
+		const url = new URL(request.url);
+		const page = parseInt(url.searchParams.get("page")) || 1;
+		const limit = parseInt(url.searchParams.get("limit")) || 10;
+		const skip = (page - 1) * limit;
+
+		const [posts, total] = await Promise.all([
+			Post.aggregate([
+				{ $sort: { isPined: -1, createdAt: -1 } },
+				{
+					$project: {
+						title: 1,
+						description: 1,
+						category: 1,
+						featured: 1,
+						viralPost: 1,
+						isHeadLine: 1,
+						isPined: 1,
+						image: 1,
+						createdAt: 1,
+						updatedAt: 1,
+						likeCount: { $size: "$likes" },
+						commentCount: { $size: "$comments" },
+					},
 				},
-			},
+				{ $skip: skip },
+				{ $limit: limit },
+			]),
+			Post.countDocuments(),
 		]);
 
-		const path = request.nextUrl.searchParams.get("path");
-
+		const path = url.searchParams.get("path");
 		if (path) {
 			revalidatePath(path);
 		}
 
-		return new Response(JSON.stringify({ posts }), {
-			status: 200,
-			headers: {
-				"Cache-Control":
-					"no-store, no-cache, must-revalidate, proxy-revalidate",
-				"Content-Type": "application/json",
-			},
-		});
+		return new Response(
+			JSON.stringify({
+				posts,
+				pagination: {
+					page,
+					limit,
+					total,
+					totalPages: Math.ceil(total / limit),
+				},
+			}),
+			{
+				status: 200,
+				headers: {
+					"Cache-Control":
+						"no-store, no-cache, must-revalidate, proxy-revalidate",
+					"Content-Type": "application/json",
+				},
+			}
+		);
 	} catch (error) {
+		console.error(error);
 		return new Response("Something went wrong", { status: 500 });
 	}
 };
