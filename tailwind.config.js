@@ -64,10 +64,6 @@ module.exports = {
 			},
 		},
 	},
-	plugins: [
-		require("@tailwindcss/forms"),
-		require("tailwindcss-animate"),
-		require("@tailwindcss/line-clamp"),
-	],
+	plugins: [require("@tailwindcss/forms"), require("tailwindcss-animate")],
 	darkMode: ["selector", "class"],
 };

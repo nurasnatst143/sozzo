@@ -41,6 +41,7 @@ const ImageUploadInput = ({ formData, setFormData }) => {
 			)}
 
 			<input
+				name='image'
 				type='file'
 				accept='image/*'
 				onChange={handleImageChange}

@@ -35,9 +35,17 @@ const Page = () => {
 	if (posts.status === "unauthorized") {
 		return (
 			<InfoWrapper>
-				<div className='text-center py-10 h-[50vh] text-xl font-semibold text-red-500'>
-					Sorry, you need to be logged in and have more than 500 points to view
-					Sozoo Talks.
+				<div className='flex justify-center'>
+					<div className='text-center py-10 h-[55vh] max-w-[650px] text-xl font-semibold text-red-500'>
+						{session.user
+							? "Sorry, you need to have more than 500 points to view Sozoo Talks."
+							: "Sorry, you need to be logged in and have more than 500 points to view Sozoo Talks."}
+						<p>
+							Log in daily, like posts, drop comments, and join exclusive
+							conversations with our community. Earn rewards, gain visibility,
+							and be part of something bigger—every action counts!
+						</p>
+					</div>
 				</div>
 			</InfoWrapper>
 		);

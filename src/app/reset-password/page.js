@@ -58,7 +58,7 @@ export default function ResetPasswordPage() {
 							placeholder='New password'
 							value={newPassword}
 							onChange={(e) => setNewPassword(e.target.value)}
-							className='w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary'
+							className='w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 text-black focus:ring-secondary'
 						/>
 						<input
 							type='password'
@@ -66,7 +66,7 @@ export default function ResetPasswordPage() {
 							placeholder='Confirm password'
 							value={confirmPassword}
 							onChange={(e) => setConfirmPassword(e.target.value)}
-							className='w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary'
+							className='w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 text-black focus:ring-secondary'
 						/>
 						<button
 							type='submit'

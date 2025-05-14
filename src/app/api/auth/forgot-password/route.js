@@ -4,10 +4,10 @@ import ResetToken from "../../../../../models/resetTokenModel";
 import NodeMailer from "nodemailer";
 async function sendResetEmail(email, code) {
 	const transporter = NodeMailer.createTransport({
-		host: "mail.privateemail.com",
-		port: 465,
-		secure: true,
-		// service: "gmail",
+		// host: "mail.privateemail.com",
+		// port: 465,
+		// secure: true,
+		service: "gmail",
 		auth: {
 			user: process.env.SMTP_USER,
 			pass: process.env.SMTP_PASS,

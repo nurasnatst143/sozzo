@@ -17,7 +17,8 @@ const DisplayAllPosts = () => {
 	const fetchPosts = async () => {
 		try {
 			setStatus("loading");
-			await getPosts(setPosts);
+			const data = await getPosts();
+			setPosts(data.posts);
 			setStatus("idle");
 		} catch (err) {
 			toast.error("Failed to load posts.");
@@ -54,6 +55,7 @@ const DisplayAllPosts = () => {
 		try {
 			await deletePostUtil(setPosts, id);
 			toast.success("Post deleted successfully!");
+			fetchPosts();
 		} catch (err) {
 			console.error(err);
 			toast.error("Failed to delete post.");

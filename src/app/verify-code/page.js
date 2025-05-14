@@ -49,7 +49,7 @@ export default function VerifyCodePage() {
 							placeholder='Your email'
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
-							className='w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary'
+							className='w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 text-black focus:ring-secondary'
 						/>
 						<input
 							type='text'
@@ -57,7 +57,7 @@ export default function VerifyCodePage() {
 							placeholder='6-digit code'
 							value={code}
 							onChange={(e) => setCode(e.target.value)}
-							className='w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary'
+							className='w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 text-black focus:ring-secondary'
 						/>
 						<button
 							type='submit'
