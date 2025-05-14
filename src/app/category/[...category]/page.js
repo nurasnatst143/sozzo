@@ -37,7 +37,7 @@ const Page = () => {
 			<InfoWrapper>
 				<div className='flex justify-center'>
 					<div className='text-center py-10 h-[55vh] max-w-[650px] text-xl font-semibold text-red-500'>
-						{session.user
+						{session?.user
 							? "Sorry, you need to have more than 500 points to view Sozoo Talks."
 							: "Sorry, you need to be logged in and have more than 500 points to view Sozoo Talks."}
 						<p>
