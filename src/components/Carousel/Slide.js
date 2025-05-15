@@ -21,7 +21,7 @@ const Slide = (props) => {
 				backgroundImage: `url(${image.imageurl})`,
 			}}
 		>
-			{title && title !== "" ? (
+			{/* {title && title !== "" ? (
 				<div className='flex justify-center items-center h-full'>
 					<div className='SlideContent  max-w-lg p-5  text-center bg-black/10 backdrop-blur-md text-white '>
 						<h2 id={id}>{title}</h2>
@@ -29,7 +29,7 @@ const Slide = (props) => {
 				</div>
 			) : (
 				<></>
-			)}
+			)} */}
 		</li>
 	);
 };
