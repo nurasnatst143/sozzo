@@ -66,9 +66,7 @@ const DisplayAllPost = () => {
 				<>
 					<div className=' '>
 						{posts.map((item) => (
-							<Link href={`posts/${item._id}`} key={item._id}>
-								<DisplayPostInfo news={item} />
-							</Link>
+							<DisplayPostInfo key={item._id} news={item} />
 						))}
 					</div>
 

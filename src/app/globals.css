@@ -108,9 +108,13 @@ button:active {
 		--chart-5: #f89247;
 		--radius: 0.5rem;
 		--bg-custom-gradiant: linear-gradient(
-			108.34deg,
-			rgb(255, 179, 65) 1.02%,
-			rgb(255, 34, 114) 99.43%
+			35deg,
+			#ff00cc,
+			#cc00ff,
+			#6a00ff,
+			#3a00d1,
+			#2e00b8,
+			#220099
 		);
 	}
 
