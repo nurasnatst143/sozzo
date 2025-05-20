@@ -9,11 +9,12 @@ import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
 import SumMenu from "./submenu";
 import { BellIcon } from "lucide-react";
+import { FaSearch } from "react-icons/fa";
 
 const Nav = () => {
 	const { data: session, status } = useSession();
 	const router = useRouter();
-
+	const [showSearch, setShowSearch] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
@@ -41,7 +42,16 @@ const Nav = () => {
 
 		return () => clearTimeout(timeout);
 	}, [searchTerm]);
+	useEffect(() => {
+		const handleClickOutside = (e) => {
+			if (inputRef.current && !inputRef.current.contains(e.target)) {
+				setShowSearch(false);
+			}
+		};
 
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => document.removeEventListener("mousedown", handleClickOutside);
+	}, []);
 	const handleSelect = (slug) => {
 		router.push(`/posts/${slug}`);
 		setSearchTerm("");
@@ -60,21 +70,33 @@ const Nav = () => {
 				/>
 			</Link>
 
-			<div className='relative w-[260px] md:w-[40vw] flex gap-2 pr-3'>
-				<input
-					ref={inputRef}
-					type='text'
-					value={searchTerm}
-					onChange={(e) => setSearchTerm(e.target.value)}
-					placeholder='Search'
-					className='px-3 lg:px-5 py-1 sm:py-2 rounded-full w-full outline-black dark:outline-white border-gray-600 text-black text-sm md:text-xl border-2'
-				/>
-				{suggestions.length > 0 && (
-					<ul className='absolute top-full left-0 right-0 bg-background dark:bg-gray-800 shadow-lg z-50 mt-2 rounded-md overflow-hidden max-h-72 overflow-y-auto'>
+			<div className=' relative flex justify-end gap-2 w-[260px] md:w-fit pr-1 md:pr-3 '>
+				{showSearch ? (
+					<div ref={inputRef} className=''>
+						<input
+							type='text'
+							value={searchTerm}
+							onChange={(e) => setSearchTerm(e.target.value)}
+							placeholder='Search'
+							autoFocus
+							className='rounded-full border-gray-600 bg-white text-black border-2 w-[150px]    md:w-[320px]'
+						/>
+					</div>
+				) : (
+					<button
+						className='p-2  hover:text-black dark:text-primary dark:hover:text-gray-300'
+						onMouseOver={() => setShowSearch(true)}
+					>
+						<FaSearch className='text-sm md:text-xl   hover:text-black dark:text-background dark:hover:text-gray-300' />
+					</button>
+				)}
+
+				{suggestions.length > 0 && showSearch && (
+					<ul className='absolute top-full min-w-[240px] left-0 right-0 bg-background dark:bg-gray-800 shadow-lg z-50 mt-2 rounded-md overflow-hidden max-h-72 overflow-y-auto'>
 						{suggestions.map((post) => (
 							<li
 								key={post._id}
-								className='flex items-center gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer'
+								className='flex items-center gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer hover:text-gray-900 dark:hover:text-white'
 								onClick={() => handleSelect(post._id)}
 							>
 								<Image
@@ -84,20 +106,18 @@ const Nav = () => {
 									height={40}
 									className='rounded-md object-cover'
 								/>
-								<span className='text-sm text-black dark:text-white'>
-									{post.title}
-								</span>
+								<span className='text-sm  '>{post.title}</span>
 							</li>
 						))}
 					</ul>
 				)}
 
-				<div className='flex items-center gap-4'>
-					<BellIcon />
-					<ThemeSwitch />
+				<div className='flex items-center gap-2 md:gap-4'>
+					<BellIcon className='text-sm md:text-xl' />
+					<ThemeSwitch className='text-sm md:text-xl' />
 					{menuOpen ? (
 						<MdOutlineClose
-							className='text-2xl cursor-pointer'
+							className=' text-sm md:text-2xl cursor-pointer'
 							onClick={handleMenu}
 						/>
 					) : (

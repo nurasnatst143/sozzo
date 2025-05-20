@@ -41,7 +41,7 @@ const DisplayPostDesc = ({ news }) => {
 
 	return (
 		<div className='max-w-[1400px] mx-auto px-2'>
-			<div className='bg-background rounded-md py-10'>
+			<div className='bg-background rounded-md py-3 md:py-10'>
 				<div className='flex justify-center mb-10'>
 					<Image
 						src={news?.image.imageurl}
@@ -50,12 +50,12 @@ const DisplayPostDesc = ({ news }) => {
 						height={600}
 					/>
 				</div>
-				<div className='px-10'>
-					<h1 className='text-2xl font-bold mb-5 text-primary '>
+				<div className='px-2 md:px-10'>
+					<h1 className='text-2xl font-bold mb-2 md:mb-5 text-primary '>
 						{news?.title}
 					</h1>
 					<div
-						className='text-lg text-primary'
+						className='text-md md:text-lg text-primary'
 						dangerouslySetInnerHTML={{
 							__html: news?.description.replace(/ style="[^"]*"/g, ""),
 						}}
