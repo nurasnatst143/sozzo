@@ -44,7 +44,13 @@ const Nav = () => {
 	}, [searchTerm]);
 	useEffect(() => {
 		const handleClickOutside = (e) => {
-			if (inputRef.current && !inputRef.current.contains(e.target)) {
+			console.log("Clicked outside", e.target);
+
+			if (
+				inputRef.current &&
+				!inputRef.current.contains(e.target) &&
+				!e?.target?.classList.contains("suggestion")
+			) {
 				setShowSearch(false);
 			}
 		};
@@ -52,12 +58,6 @@ const Nav = () => {
 		document.addEventListener("mousedown", handleClickOutside);
 		return () => document.removeEventListener("mousedown", handleClickOutside);
 	}, []);
-	const handleSelect = (slug) => {
-		router.push(`/posts/${slug}`);
-		setSearchTerm("");
-		setSuggestions([]);
-	};
-
 	return (
 		<div className='flex justify-between w-full h-[80px] bg-sky lg:gap-8 py-2 px-2 items-center relative'>
 			<Link href='/'>
@@ -85,29 +85,38 @@ const Nav = () => {
 				) : (
 					<button
 						className='p-2  hover:text-black dark:text-primary dark:hover:text-gray-300'
-						onMouseOver={() => setShowSearch(true)}
+						onMouseOver={(e) => {
+							e.stopPropagation();
+							e.preventDefault();
+							setShowSearch(true);
+						}}
 					>
 						<FaSearch className='text-sm md:text-xl   hover:text-black dark:text-background dark:hover:text-gray-300' />
 					</button>
 				)}
 
 				{suggestions.length > 0 && showSearch && (
-					<ul className='absolute top-full min-w-[240px] left-0 right-0 bg-background dark:bg-gray-800 shadow-lg z-50 mt-2 rounded-md overflow-hidden max-h-72 overflow-y-auto'>
+					<ul
+						id='suggestion'
+						className='absolute top-full min-w-[240px] left-0 right-0 bg-background dark:bg-gray-800 shadow-lg z-50 mt-2 rounded-md overflow-hidden max-h-72 overflow-y-auto'
+					>
 						{suggestions.map((post) => (
-							<li
+							<Link
 								key={post._id}
-								className='flex items-center gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer hover:text-gray-900 dark:hover:text-white'
-								onClick={() => handleSelect(post._id)}
+								href={`/posts/${post._id}`}
+								className='suggestion'
 							>
-								<Image
-									src={post.image?.imageurl || "/placeholder.jpg"}
-									alt={post.title}
-									width={40}
-									height={40}
-									className='rounded-md object-cover'
-								/>
-								<span className='text-sm  '>{post.title}</span>
-							</li>
+								<li className='suggestion flex items-center gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer hover:text-gray-900 dark:hover:text-white'>
+									<Image
+										src={post.image?.imageurl || "/placeholder.jpg"}
+										alt={post.title}
+										width={40}
+										height={40}
+										className='rounded-md suggestion object-cover'
+									/>
+									<span className='text-sm  suggestion'>{post.title}</span>
+								</li>
+							</Link>
 						))}
 					</ul>
 				)}
