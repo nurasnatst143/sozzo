@@ -44,8 +44,6 @@ const Nav = () => {
 	}, [searchTerm]);
 	useEffect(() => {
 		const handleClickOutside = (e) => {
-			console.log("Clicked outside", e.target);
-
 			if (
 				inputRef.current &&
 				!inputRef.current.contains(e.target) &&
