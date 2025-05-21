@@ -40,38 +40,6 @@ const postSchema = new Schema(
 				required: true,
 			},
 		},
-		likes: [
-			{
-				user: {
-					type: mongoose.Schema.Types.ObjectId,
-				},
-			},
-		],
-		comments: [
-			{
-				user: {
-					type: mongoose.Schema.Types.ObjectId,
-					ref: "users",
-				},
-				text: {
-					type: String,
-					required: true,
-				},
-				name: {
-					type: String,
-					required: true,
-				},
-				avatar: {
-					type: String,
-					required: true,
-					default: "https://placehold.co/40x40",
-				},
-				date: {
-					type: Date,
-					default: Date.now,
-				},
-			},
-		],
 	},
 	{ timestamps: true }
 );

@@ -2,11 +2,20 @@ import connectDB from "../../../../../config/connectDB";
 import Post from "../../../../../models/post";
 import Headline from "../../../../../models/headline";
 import cloudinary from "../../../../../config/cloudinary";
+
+import Like from "../../../../../models/likeModel";
+import Comment from "../../../../../models/commentModel";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../auth/[...nextauth]/route";
+
 export const GET = async (request, { params }) => {
 	try {
 		await connectDB();
 
-		const post = await Post.findById(params.id);
+		const session = await getServerSession(authOptions);
+		const userId = session?.user?.id;
+
+		const post = await Post.findById(params.id).lean();
 
 		if (!post) {
 			return new Response("Not Found", {
@@ -14,10 +23,37 @@ export const GET = async (request, { params }) => {
 			});
 		}
 
-		return new Response(JSON.stringify({ post }), {
-			status: 200,
-		});
+		const [likes, comments] = await Promise.all([
+			Like.find({ post: post._id }).lean(),
+			Comment.find({ post: post._id })
+				.populate("user", "name avatar") // optional: enrich comment data
+				.sort({ date: -1 }) // newest first
+				.lean(),
+		]);
+
+		const userLiked = userId
+			? likes.some((like) => like.user.toString() === userId)
+			: false;
+
+		return new Response(
+			JSON.stringify({
+				post,
+				likes,
+				comments,
+				likeCount: likes.length,
+				commentCount: comments.length,
+				userLiked,
+			}),
+			{
+				status: 200,
+				headers: {
+					"Content-Type": "application/json",
+					"Cache-Control": "no-store",
+				},
+			}
+		);
 	} catch (error) {
+		console.error(error);
 		return new Response("Something went wrong", { status: 500 });
 	}
 };

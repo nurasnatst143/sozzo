@@ -29,13 +29,7 @@ const DisplayPostDesc = ({ news }) => {
 			}
 		);
 		if (res.status === 200) {
-			setNews((x) => ({
-				...x,
-				data: {
-					...x.data,
-					likes: res.data.likes,
-				},
-			}));
+			router.refresh();
 		}
 	};
 

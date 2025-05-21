@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import connectDB from "../../../../../config/connectDB";
 import Post from "../../../../../models/post";
+import Comment from "../../../../../models/commentModel";
 
 export const POST = async (request) => {
 	try {
@@ -16,35 +17,32 @@ export const POST = async (request) => {
 		await connectDB();
 
 		const body = await request.json();
+		const { id: postId, message } = body;
 
-		const findPost = await Post.findById(body.id);
-
+		const findPost = await Post.findById(postId);
 		if (!findPost) {
 			return new Response("Post Not Found", { status: 404 });
 		}
 
-		const commentData = {
+		const newComment = await Comment.create({
 			user: session.user.id,
-			text: body.message,
-			name: session.user.name,
-			avatar: session.user.image,
-		};
+			post: postId,
+			text: message,
+		});
 
-		findPost.comments.unshift(commentData);
+		// Optional: fetch and return the full comment with user info
+		const populatedComment = await Comment.findById(newComment._id)
+			.populate("user", "name avatar")
+			.lean();
 
-		await findPost.save();
-
-		return new Response(
-			JSON.stringify(
-				{ comments: findPost.comments },
-				{
-					status: 200,
-				}
-			)
-		);
+		return new Response(JSON.stringify({ comment: populatedComment }), {
+			status: 200,
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
 	} catch (error) {
-		console.log("err", error);
-
+		console.error("Error creating comment:", error);
 		return new Response("Something Went Wrong", { status: 500 });
 	}
 };

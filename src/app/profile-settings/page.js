@@ -94,31 +94,35 @@ export default function ProfilePage() {
 		<>
 			<Nav />
 			<div
-				className={`min-h-screen flex items-center  justify-center bg-[url('/assets/bg.jpg')] bg-no-repeat bg-center  px-4`}
+				className={`min-h-screen flex   justify-center bg-[url('/assets/bg.jpg')] bg-no-repeat bg-center  px-4`}
 			>
-				<div className='bg-card text-card-foreground shadow-xl rounded-2xl p-8 max-w-md w-full text-center'>
-					<div className='flex justify-center mb-4'>
+				<div className=' flex gap-4 justify-center items-center text-card-foreground shadow-xl rounded-2xl p-8  w-full text-center'>
+					<div className='flex justify-center items-center mb-4 mt-5'>
 						<img
 							src={user.image || "/default-avatar.png"}
 							alt='Profile'
-							className='w-24 h-24 rounded-full border-4 border-primary object-cover'
+							className='w-[180] h-[180] rounded-full border-4 border-primary object-cover'
 						/>
 					</div>
-					<h1 className='text-2xl font-semibold'>{user.name}</h1>
-					<p className='text-muted-foreground text-sm'>{user.email}</p>
-					<p className='text-muted-foreground text-sm'>
-						@{user.username || "username"}
-					</p>
-					<p className='text-sm mt-2'>
-						<span className='font-medium text-primary'>Points:</span>{" "}
-						{user.points || 0}
-					</p>
-					<button
-						onClick={() => setShowModal(true)}
-						className='mt-4 px-5 py-2 rounded-md bg-primary text-primary-foreground hover:opacity-90'
-					>
-						Edit Profile
-					</button>
+					<div className='flex flex-col'>
+						<h1 className='text-2xl font-semibold'>{user.name}</h1>
+						<p className='text-muted-foreground text-sm text-left'>
+							{user.email}
+						</p>
+						<p className='text-muted-foreground text-sm text-left'>
+							@{user.username || "username"}
+						</p>
+						<p className='text-sm text-left mt-2'>
+							<span className='font-medium text-primary'>Points:</span>{" "}
+							{user.points || 0}
+						</p>
+						<button
+							onClick={() => setShowModal(true)}
+							className='mt-4 px-5 py-2 rounded-md bg-primary text-primary-foreground hover:opacity-90'
+						>
+							Edit Profile
+						</button>
+					</div>
 				</div>
 
 				{showModal && (

@@ -1,10 +1,13 @@
 import DescWrapper from "@/components/posts/DescWrapper";
 import DisplayPostDesc from "@/components/posts/DisplayPostDesc";
-
 import { fetchPostById } from "@/lib/post/findPostById";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const Page = async ({ params }) => {
-	const post = await fetchPostById(params.id);
+	const session = await getServerSession(authOptions);
+
+	const post = await fetchPostById(params.id, session?.user?.id);
 	console.log("post", post);
 
 	if (!post) {
