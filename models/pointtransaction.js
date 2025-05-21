@@ -47,6 +47,11 @@ const pointsTransactionSchema = new mongoose.Schema({
 		ref: "Comment",
 		default: null,
 	},
+	type: {
+		type: String,
+		enum: ["gain", "loss"],
+		required: true,
+	},
 	discussionId: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "SozooTalkDiscussion",
@@ -65,9 +70,8 @@ const pointsTransactionSchema = new mongoose.Schema({
 // Optional: Index for performance
 pointsTransactionSchema.index({ userId: 1, createdAt: -1 });
 
-const PointsTransaction = mongoose.model(
-	"PointsTransaction",
-	pointsTransactionSchema
-);
+const PointsTransaction =
+	mongoose.models.PointsTransaction ||
+	mongoose.model("PointsTransaction", pointsTransactionSchema);
 
 export default PointsTransaction;

@@ -2,8 +2,9 @@
 
 import Footer from "@/components/Footer";
 import Nav from "@/components/nav/Nav";
+import axios from "axios";
 import { useSession } from "next-auth/react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 // Default Interests
 const defaultInterests = [
@@ -21,7 +22,7 @@ const defaultInterests = [
 
 export default function ProfilePage() {
 	const { data: session, update } = useSession();
-	const user = session?.user;
+	const [user, setUser] = useState(null);
 	const [showModal, setShowModal] = useState(false);
 	const imageInputRef = useRef(null);
 
@@ -88,33 +89,48 @@ export default function ProfilePage() {
 		}
 	};
 
+	useEffect(() => {
+		const getUserProfile = async () => {
+			const res = await axios.get("/api/user/getuser-profile");
+
+			if (res.status === 200) {
+				setUser(res.data.profile);
+				setFormData({
+					...res.data.profile,
+					image: null,
+					imagePreview: res.data.profile.image,
+				});
+			} else {
+				setUser(null);
+			}
+		};
+		getUserProfile();
+	}, []);
+
 	if (!user) return <p className='text-center mt-10'>Loading...</p>;
 
 	return (
 		<>
 			<Nav />
 			<div
-				className={`min-h-screen flex   justify-center bg-[url('/assets/bg.jpg')] bg-no-repeat bg-center  px-4`}
+				className={`min-h-screen flex  flex-col justify-center items-center bg-[url('/assets/bg.jpg')] bg-no-repeat bg-center  px-4 pb-20`}
 			>
-				<div className=' flex gap-4 justify-center items-center text-card-foreground shadow-xl rounded-2xl p-8  w-full text-center'>
+				<div className=' flex gap-4 flex-col md:flex-row justify-center items-center text-card-foreground shadow-xl rounded-2xl p-8  w-full text-center'>
 					<div className='flex justify-center items-center mb-4 mt-5'>
 						<img
 							src={user.image || "/default-avatar.png"}
 							alt='Profile'
-							className='w-[180] h-[180] rounded-full border-4 border-primary object-cover'
+							className='w-[180] h-[180] rounded-full border-4 border-white object-cover'
 						/>
 					</div>
-					<div className='flex flex-col'>
-						<h1 className='text-2xl font-semibold'>{user.name}</h1>
-						<p className='text-muted-foreground text-sm text-left'>
-							{user.email}
-						</p>
-						<p className='text-muted-foreground text-sm text-left'>
+					<div className='flex flex-col  '>
+						<h1 className='text-2xl text-white font-semibold'>{user.name}</h1>
+						<p className='text-sm text-white text-left'>{user.email}</p>
+						<p className=' text-white text-sm text-left'>
 							@{user.username || "username"}
 						</p>
-						<p className='text-sm text-left mt-2'>
-							<span className='font-medium text-primary'>Points:</span>{" "}
-							{user.points || 0}
+						<p className='text-sm text-white text-left mt-2'>
+							<span className='font-medium '>Points:</span> {user.points || 0}
 						</p>
 						<button
 							onClick={() => setShowModal(true)}
@@ -122,6 +138,21 @@ export default function ProfilePage() {
 						>
 							Edit Profile
 						</button>
+					</div>
+				</div>
+				<div>
+					<h3 className='text-lg font-semibold mb-2 text-white'>
+						My Interests:
+					</h3>
+					<div className='flex flex-wrap gap-2'>
+						{user?.interests?.map((interest, i) => (
+							<span
+								key={i}
+								className='bg-blue-600 text-white text-sm px-3 py-1 rounded-full shadow-sm hover:bg-blue-700 transition'
+							>
+								{interest}
+							</span>
+						))}
 					</div>
 				</div>
 
