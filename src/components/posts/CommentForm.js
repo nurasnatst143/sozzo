@@ -13,8 +13,8 @@ function CommentForm({ news, messageForm, setMessageForm }) {
 			message: newComment,
 			id: news._id,
 		});
-		const commentsres = res.data.comments;
-		setComments((x) => [...x, commentsres]);
+		const commentsres = res.data.comment;
+		setComments((x) => [commentsres, ...x]);
 		setNewComment("");
 		setMessageForm(false);
 	};
@@ -26,7 +26,7 @@ function CommentForm({ news, messageForm, setMessageForm }) {
 				<form onSubmit={handleSubmit}>
 					<div className='w-full px-3 my-2'>
 						<textarea
-							className='bg-gray-100 text-black rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-background'
+							className='  rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none bg-background'
 							name='body'
 							value={newComment}
 							onChange={(e) => setNewComment(e.target.value)}
@@ -46,25 +46,28 @@ function CommentForm({ news, messageForm, setMessageForm }) {
 			)}
 			{comments.length ? (
 				<div className='flex flex-col'>
-					{comments.map((item) => (
-						<div className='border rounded-md p-3 ml-3 my-3' key={item._id}>
+					{comments.map((item, i) => (
+						<div
+							className='border rounded-md p-3 ml-3 my-3'
+							key={item?._id + i}
+						>
 							<div className='flex gap-3 items-center'>
 								<Image
-									src={item.avatar}
+									src={item?.avatar}
 									width={48}
 									height={48}
 									className='rounded-full'
-									alt={item.name}
+									alt={item?.name}
 								/>
-								<h3 className='font-bold'>{item.name}</h3>
+								<h3 className='font-bold'>{item?.name}</h3>
 							</div>
-							<p className=' mt-2'>{item.text}</p>
+							<p className=' mt-2'>{item?.text}</p>
 						</div>
 					))}
 				</div>
 			) : (
 				<div>
-					<p className='text-black text-xl font-semibold text-center pb-5'>
+					<p className=' text-xl font-semibold text-center pb-5'>
 						No Comment To Display
 					</p>
 				</div>
