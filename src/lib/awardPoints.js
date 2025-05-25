@@ -1,5 +1,5 @@
-import PointsTransaction from "@/models/pointsTransaction";
-import User from "@/models/user";
+import PointsTransaction from "../../models/pointtransaction";
+import User from "../../models/user";
 import connectDB from "../../config/connectDB";
 
 const pointsRules = {

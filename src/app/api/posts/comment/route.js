@@ -3,8 +3,8 @@ import { authOptions } from "../../auth/[...nextauth]/route";
 import connectDB from "../../../../../config/connectDB";
 import Post from "../../../../../models/post";
 import Comment from "../../../../../models/commentModel";
-import { awardPoints } from "@/lib/awardPoints";
-import { canAwardPoints } from "@/lib/canAwardPoints";
+import { awardPoints } from "../../../../lib/awardPoints";
+import { canAwardPoints } from "../../../../lib/canAwardPoints";
 export const POST = async (request) => {
 	try {
 		const session = await getServerSession(authOptions);
@@ -33,7 +33,7 @@ export const POST = async (request) => {
 			text: message,
 			avatar: session.user.image || "https://placehold.co/40x40",
 		});
-		can;
+
 		const canAward = await canAwardPoints({
 			userId: session.user.id,
 			reason: "comment_article",
