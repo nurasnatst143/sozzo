@@ -18,6 +18,11 @@ const Nav = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
+	const [notifications, setNotifications] = useState([]);
+	const [showNotifications, setShowNotifications] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const [unreadCount, setUnreadCount] = useState(0);
+
 	const inputRef = useRef(null);
 
 	const handleMenu = () => setMenuOpen(!menuOpen);
@@ -55,6 +60,36 @@ const Nav = () => {
 
 		document.addEventListener("mousedown", handleClickOutside);
 		return () => document.removeEventListener("mousedown", handleClickOutside);
+	}, []);
+
+	const bellRef = useRef(null);
+
+	useEffect(() => {
+		const handleClickOutside = (e) => {
+			if (bellRef.current && !bellRef.current.contains(e.target)) {
+				setShowNotifications(false);
+			}
+		};
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => document.removeEventListener("mousedown", handleClickOutside);
+	}, []);
+
+	const fetchNotifications = async () => {
+		if (!session?.user?.id) return;
+		setLoading(true);
+		try {
+			const res = await fetch(`/api/notification/${session.user.id}?limit=10`);
+			const data = await res.json();
+
+			setNotifications(data.notifications || []);
+			setUnreadCount(data.notifications?.filter((n) => !n.isRead).length || 0);
+		} catch (error) {
+			console.error("Error loading notifications:", error);
+		}
+		setLoading(false);
+	};
+	useEffect(() => {
+		fetchNotifications();
 	}, []);
 	return (
 		<div className='flex justify-between w-full h-[80px] bg-sky lg:gap-8 py-2 px-2 items-center relative'>
@@ -120,7 +155,50 @@ const Nav = () => {
 				)}
 
 				<div className='flex items-center gap-2 md:gap-4'>
-					<BellIcon className='text-sm md:text-xl' />
+					<div className='relative' ref={bellRef}>
+						<BellIcon
+							className='text-sm md:text-xl cursor-pointer'
+							onClick={() => {
+								setShowNotifications((prev) => !prev);
+								if (!showNotifications) fetchNotifications();
+							}}
+						/>
+						{unreadCount > 0 && (
+							<span className='absolute top-[-10px] right-[-10px] inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white bg-red-600 rounded-full flex justify-center items-center'>
+								{unreadCount}
+							</span>
+						)}
+						{showNotifications && (
+							<div className='absolute right-0 top-8 w-72 bg-white dark:bg-gray-800 shadow-lg rounded-md p-3 z-50'>
+								<h4 className='text-sm text-black font-semibold mb-2'>
+									Notifications
+								</h4>
+
+								{loading ? (
+									<p className='text-xs text-black'>Loading...</p>
+								) : notifications.length === 0 ? (
+									<p className='text-xs text-black'>No notifications</p>
+								) : (
+									<ul className='space-y-2 max-h-64 overflow-y-auto'>
+										{notifications.map((n) => (
+											<Link key={n._id} href={n.link || "#"}>
+												<li
+													className={`text-sm p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 ${
+														n.isRead
+															? "text-black"
+															: "font-semibold text-black bg-blue-50 dark:bg-blue-900/60"
+													}`}
+												>
+													{n.title}
+												</li>
+											</Link>
+										))}
+									</ul>
+								)}
+							</div>
+						)}
+					</div>
+
 					<ThemeSwitch className='text-sm md:text-xl' />
 					{menuOpen ? (
 						<MdOutlineClose
