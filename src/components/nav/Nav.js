@@ -136,17 +136,17 @@ const Nav = () => {
 				</div>
 			</div>
 
-			<div
-				className={`${
-					menuOpen ? "" : "hidden"
-				} absolute right-0 top-14 bg-sky dark:bg-gray-700 w-52 py-5 rounded-md z-50`}
-			>
-				<SumMenu
-					onClose={() => setMenuOpen(!menuOpen)}
-					session={session}
-					status={status}
-				/>
-			</div>
+			{menuOpen && (
+				<div
+					className={` absolute right-0 top-14 bg-sky dark:bg-gray-700 w-52 py-5 rounded-md z-50`}
+				>
+					<SumMenu
+						onClose={() => setMenuOpen(!menuOpen)}
+						session={session}
+						status={status}
+					/>
+				</div>
+			)}
 		</div>
 	);
 };

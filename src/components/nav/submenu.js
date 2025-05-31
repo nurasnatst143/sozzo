@@ -21,6 +21,23 @@ const SumMenu = ({ onClose, session, status }) => {
 		status: "idle",
 	});
 	const [categories, setCategories] = useState([]);
+
+	const [user, setUser] = useState(null);
+
+	useEffect(() => {
+		const fetchUser = async () => {
+			const res = await fetch(`/api/user/getuser-profile`);
+			if (!res.ok) throw new Error("Failed to fetch user");
+
+			const data = await res.json();
+			if (data?.profile) {
+				setUser(data);
+			}
+		};
+
+		fetchUser();
+	}, []);
+
 	useEffect(() => {
 		const fetchCategories = async () => {
 			try {
@@ -52,7 +69,6 @@ const SumMenu = ({ onClose, session, status }) => {
 			items: 1,
 		},
 	};
-	console.log("session", session);
 
 	return (
 		<>
@@ -96,7 +112,7 @@ const SumMenu = ({ onClose, session, status }) => {
 									</div>
 									{session?.user.role !== "Admin" && (
 										<div className='flex justify-end md:justify-start items-center  mb-2  w-full mr-[20px] text-xl md:text-md space-x-2 px-4'>
-											{session?.user?.points} Points
+											{user?.profile?.points} Points
 										</div>
 									)}
 									<div
