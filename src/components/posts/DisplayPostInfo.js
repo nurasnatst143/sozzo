@@ -66,7 +66,7 @@ const DisplayPostInfo = ({ news }) => {
 		<div className='p-4'>
 			<div className='bg-background border dark:bg-background rounded-xl shadow hover:shadow-lg transition-shadow duration-300 overflow-hidden'>
 				<div className='grid grid-cols-1 sm:grid-cols-4 gap-4'>
-					<Link href={`posts/${news._id}`}>
+					<Link href={`/posts/${news._id}`}>
 						<div className='sm:col-span-1 flex items-center justify-center p-2'>
 							<Image
 								src={news.image.imageurl}
@@ -78,7 +78,7 @@ const DisplayPostInfo = ({ news }) => {
 						</div>
 					</Link>
 					<div className='sm:col-span-3 flex flex-col justify-between p-2 text-primary'>
-						<Link href={`posts/${news._id}`}>
+						<Link href={`/posts/${news._id}`}>
 							<div>
 								<h2 className='text-lg sm:text-xl font-semibold mb-1 text-primary  line-clamp-2'>
 									{news.title}

@@ -13,11 +13,7 @@ const PostsContainer = ({ posts, path }) => {
 					<p className='text-2Xl font-semibold '>No Post To Display</p>
 				</div>
 			) : (
-				posts.data.map((item) => (
-					<Link href={`/posts/${item._id}`} key={item._id}>
-						<DisplayPostInfo news={item} />
-					</Link>
-				))
+				posts.data.map((item) => <DisplayPostInfo key={item._id} news={item} />)
 			)}
 		</div>
 	);
