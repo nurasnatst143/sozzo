@@ -7,8 +7,8 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 const Page = async ({ params }) => {
 	const session = await getServerSession(authOptions);
 
-	const post = await fetchPostById(params.id, session?.user?.id);
-	console.log("post", post);
+	const postJson = await fetchPostById(params.id, session?.user?.id);
+	const post = JSON.parse(postJson);
 
 	if (!post) {
 		return (

@@ -33,7 +33,7 @@ export const GET = async (request) => {
 			},
 			{ $skip: skip },
 			{ $limit: limit },
-		]);
+		]).lean();
 
 		const postIds = posts.map((post) => post._id);
 

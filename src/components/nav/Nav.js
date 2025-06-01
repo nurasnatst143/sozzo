@@ -10,7 +10,7 @@ import { useSession, signOut } from "next-auth/react";
 import SumMenu from "./submenu";
 import { BellIcon } from "lucide-react";
 import { FaSearch } from "react-icons/fa";
-
+import Pusher from "pusher-js";
 const Nav = () => {
 	const { data: session, status } = useSession();
 	const router = useRouter();
@@ -91,6 +91,39 @@ const Nav = () => {
 	useEffect(() => {
 		fetchNotifications();
 	}, []);
+
+	useEffect(() => {
+		console.log("hit", session);
+
+		if (!session?.user?.id) return;
+
+		const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
+			cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
+			channelAuthorization: {
+				endpoint: "/api/pusher/auth", // if using private channels
+			},
+		});
+
+		const channel = pusher.subscribe(`private-user-${session.user.id}`);
+
+		channel.bind("new-notification", (data) => {
+			setNotifications((prev) => [
+				{
+					title: `New post: ${data.title}`,
+					link: `/posts/${data.postId}`,
+					isRead: false,
+				},
+				...prev,
+			]);
+			setUnreadCount((prev) => prev + 1);
+		});
+
+		return () => {
+			pusher.unsubscribe(`private-user-${session.user.id}`);
+			pusher.disconnect();
+		};
+	}, [session?.user?.id]);
+
 	return (
 		<div className='flex justify-between w-full h-[80px] bg-sky lg:gap-8 py-2 px-2 items-center relative'>
 			<Link href='/'>
@@ -164,7 +197,7 @@ const Nav = () => {
 							}}
 						/>
 						{unreadCount > 0 && (
-							<span className='absolute top-[-10px] right-[-10px] inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white bg-red-600 rounded-full flex justify-center items-center'>
+							<span className='absolute top-[-10px] right-[-10px] inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white bg-red-600 rounded-full '>
 								{unreadCount}
 							</span>
 						)}
@@ -181,7 +214,27 @@ const Nav = () => {
 								) : (
 									<ul className='space-y-2 max-h-64 overflow-y-auto'>
 										{notifications.map((n) => (
-											<Link key={n._id} href={n.link || "#"}>
+											<Link
+												onClick={async () => {
+													try {
+														await fetch(`/api/notification/${n._id}`, {
+															method: "PATCH",
+														});
+														setNotifications((prev) =>
+															prev.map((item) =>
+																item._id === n._id
+																	? { ...item, isRead: true }
+																	: item
+															)
+														);
+														setUnreadCount((prev) => Math.max(0, prev - 1));
+													} catch (err) {
+														console.error("Failed to mark as read");
+													}
+												}}
+												key={n._id}
+												href={n.link || "#"}
+											>
 												<li
 													className={`text-sm p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 ${
 														n.isRead

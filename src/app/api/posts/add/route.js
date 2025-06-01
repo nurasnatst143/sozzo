@@ -5,6 +5,7 @@ import cloudinary from "../../../../../config/cloudinary";
 import Post from "../../../../../models/post";
 import User from "../../../../../models/user";
 import Notification from "../../../../../models/notification";
+import { pusherServer } from "@/lib/pusher";
 
 export const POST = async (request) => {
 	try {
@@ -58,7 +59,16 @@ export const POST = async (request) => {
 		}));
 
 		await Notification.insertMany(notifications);
-
+		for (const user of eligibleUsers) {
+			await pusherServer.trigger(
+				`private-user-${user._id}`,
+				"new-notification",
+				{
+					title,
+					postId: newPost._id,
+				}
+			);
+		}
 		return Response.redirect(`${process.env.URL_DOMAIN}/admin/all-posts`);
 	} catch (error) {
 		console.error("Post creation error:", error);

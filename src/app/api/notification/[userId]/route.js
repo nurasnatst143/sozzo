@@ -22,3 +22,16 @@ export const GET = async (req, { params }) => {
 		);
 	}
 };
+
+export const PATCH = async (req, { params }) => {
+	try {
+		await connectDB();
+		console.log("hit");
+		const { userId } = params;
+		await Notification.findByIdAndUpdate(userId, { isRead: true });
+		return new Response(JSON.stringify({ success: true }));
+	} catch (err) {
+		console.error("Mark as read failed", err);
+		return new Response("Error", { status: 500 });
+	}
+};

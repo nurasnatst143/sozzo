@@ -34,14 +34,14 @@ export async function fetchPostById(id, userId) {
 			: false;
 
 		// Return post with related data
-		return {
+		return JSON.stringify({
 			...post,
 			comments,
 			likes,
 			commentCount: comments.length,
 			likeCount: likes.length,
 			userLiked,
-		};
+		});
 	} catch (error) {
 		console.error("Error fetching post:", error.message);
 		throw error;
