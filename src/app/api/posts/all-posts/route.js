@@ -13,9 +13,7 @@ export const GET = async (request) => {
 		const page = parseInt(url.searchParams.get("page")) || 1;
 		const limit = parseInt(url.searchParams.get("limit")) || 10;
 		const skip = (page - 1) * limit;
-
-		// Step 1: Get paginated posts
-		const posts = await Post.aggregate([
+		const pipeline = [
 			{ $sort: { isPined: -1, createdAt: -1 } },
 			{
 				$project: {
@@ -31,9 +29,12 @@ export const GET = async (request) => {
 					updatedAt: 1,
 				},
 			},
-			{ $skip: skip },
-			{ $limit: limit },
-		]).lean();
+		];
+
+		if (skip) pipeline.push({ $skip: skip });
+		if (limit) pipeline.push({ $limit: limit });
+
+		const posts = await Post.aggregate(pipeline);
 
 		const postIds = posts.map((post) => post._id);
 

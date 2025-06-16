@@ -11,9 +11,6 @@ export const POST = async (req) => {
 	const socketId = formData.get("socket_id");
 	const channel = formData.get("channel_name");
 
-	console.log("socket_id", socketId);
-	console.log("channel_name", channel);
-
 	const auth = pusherServer.authorizeChannel(socketId, channel, {
 		user_id: session.user.id,
 	});
