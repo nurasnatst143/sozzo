@@ -3,7 +3,7 @@ import connectDB from "../../../../../../config/connectDB";
 export const GET = async (request, { params }) => {
 	try {
 		await connectDB();
-		const post = await Post.findById(params.id);
+		const post = await Post.findById(params.id).lean();
 
 		if (!post) {
 			return new Response("Post not found", { status: 404 });

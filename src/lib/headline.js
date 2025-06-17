@@ -10,8 +10,7 @@ export async function getHeadlinePosts() {
 		$or: [{ isHeadLine: true }, { createdAt: { $gte: twentyFourHoursAgo } }],
 	})
 		.sort({ createdAt: -1 })
-		.lean()
-		.exec();
+		.lean();
 
 	return headlines;
 }

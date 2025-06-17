@@ -1,4 +1,3 @@
-// app/page.tsx or wherever your Home component is
 import ConditionalRender from "@/components/ConditionalRender";
 import Footer from "@/components/Footer";
 import Nav from "@/components/nav/Nav";
@@ -21,7 +20,7 @@ export default async function Home() {
 		]);
 	console.log(
 		"featuredPosts",
-		typeof screenSaverDoc,
+		screenSaverDoc,
 		typeof slidedata,
 		typeof headlines,
 		typeof featuredPosts

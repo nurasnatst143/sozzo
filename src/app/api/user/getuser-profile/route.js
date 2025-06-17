@@ -14,7 +14,7 @@ export const GET = async (request, { params }) => {
 			return new Response("Unauthorized", { status: 401 });
 		}
 
-		const user = await User.findById(userId).select("-password"); // Exclude password
+		const user = await User.findById(userId).select("-password").lean(); // Exclude password
 
 		if (!user) {
 			return new Response("User not found", { status: 404 });

@@ -6,8 +6,7 @@ export const GET = async (request) => {
 		const headers = new Headers(request.headers);
 		const type = headers.get("type");
 		await connectDB();
-		const posts = await Post.find({ category: type });
-		console.log("p", posts);
+		const posts = await Post.find({ category: type }).lean();
 
 		return new Response(JSON.stringify({ posts }), {
 			status: 200,

@@ -6,7 +6,7 @@ import connectDB from "../../config/connectDB";
 export async function canAwardPoints({ userId, reason }) {
 	await connectDB();
 
-	const user = await User.findById(userId);
+	const user = await User.findById(userId).lean();
 	if (!user) throw new Error("User not found");
 
 	const now = new Date();
