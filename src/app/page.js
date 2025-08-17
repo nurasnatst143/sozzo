@@ -20,13 +20,6 @@ export default async function Home() {
 			getHeadlinePosts(),
 			getFeaturedPosts(),
 		]);
-	console.log(
-		"featuredPosts",
-		screenSaverDoc,
-		typeof slidedata,
-		typeof headlines,
-		typeof featuredPosts
-	);
 
 	return (
 		<main>
