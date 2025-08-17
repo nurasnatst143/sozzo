@@ -1,3 +1,5 @@
+export const revalidate = 60;
+
 import ConditionalRender from "@/components/ConditionalRender";
 import Footer from "@/components/Footer";
 import Nav from "@/components/nav/Nav";
