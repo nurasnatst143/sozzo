@@ -68,9 +68,9 @@ const SumMenu = ({ onClose, session, status }) => {
 											Dashboard
 										</Link>
 									</div>
-									<div className='flex justify-end md:justify-start items-center  mb-2  w-full mr-[20px] text-xl md:text-md space-x-2 px-4'>
+									{/* <div className='flex justify-end md:justify-start items-center  mb-2  w-full mr-[20px] text-xl md:text-md space-x-2 px-4'>
 										<Link href={"/admin"}>Settings</Link>
-									</div>
+									</div> */}
 									<div
 										className=' flex justify-end md:justify-start items-center  mb-[30px]  w-full mr-[20px] text-xl md:text-md space-x-2 px-4 cursor-pointer'
 										onClick={() => signOut()}
