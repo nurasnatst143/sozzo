@@ -110,7 +110,11 @@ const DisplayPostDesc = ({ news }) => {
 					/>
 					<span className='text-sm text-muted-foreground'>
 						📅{" "}
-						{formatDistanceToNow(new Date(news.createdAt), { addSuffix: true })}
+						{new Date(news.createdAt).toLocaleDateString("en-US", {
+							year: "numeric",
+							month: "long",
+							day: "numeric",
+						})}
 					</span>
 					<button
 						onClick={() => {

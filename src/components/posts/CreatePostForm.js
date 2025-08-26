@@ -98,6 +98,8 @@ const CreatePostForm = () => {
 								className='bg-card text-primary mb-3'
 								value={formData.description}
 								onChange={(event) => {
+									console.log("Description changed:", event);
+
 									setFormData((state) => ({
 										...state,
 										description: event,
