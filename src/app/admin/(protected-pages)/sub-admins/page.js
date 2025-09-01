@@ -6,6 +6,7 @@ import User from "../../../../../models/user";
 import NewSubadminForm from "./sub-admin-form"; // 👈 add this
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import connectDB from "../../../../../config/connectDB";
+import SubadminRowActions from "./subadmin-row-actions";
 
 export const dynamic = "force-dynamic";
 
@@ -53,6 +54,9 @@ export default async function SubadminsPage() {
 								<th className='px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500'>
 									Joined
 								</th>
+								<th className='px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500'>
+									Actions
+								</th>
 							</tr>
 						</thead>
 						<tbody className='divide-y divide-gray-100 bg-white text-black'>
@@ -87,6 +91,18 @@ export default async function SubadminsPage() {
 									</td>
 									<td className='px-4 py-3 text-sm text-gray-600'>
 										{new Date(u.createdAt).toLocaleDateString()}
+									</td>
+									<td className='px-4 py-3'>
+										<SubadminRowActions
+											user={{
+												id: u._id.toString(),
+												name: u.name,
+												email: u.email,
+												username: u.username,
+												status: u.status,
+												image: u.image,
+											}}
+										/>
 									</td>
 								</tr>
 							))}
