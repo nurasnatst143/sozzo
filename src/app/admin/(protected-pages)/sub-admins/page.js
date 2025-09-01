@@ -39,7 +39,7 @@ export default async function SubadminsPage() {
 			) : (
 				<div className='overflow-x-auto rounded-lg border'>
 					<table className='min-w-full divide-y divide-gray-200'>
-						<thead className='bg-gray-50'>
+						<thead className='bg-gray-50 text-black'>
 							<tr>
 								<th className='px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500'>
 									User
@@ -55,7 +55,7 @@ export default async function SubadminsPage() {
 								</th>
 							</tr>
 						</thead>
-						<tbody className='divide-y divide-gray-100 bg-white'>
+						<tbody className='divide-y divide-gray-100 bg-white text-black'>
 							{subs.map((u) => (
 								<tr key={u._id}>
 									<td className='px-4 py-3 flex items-center gap-3'>

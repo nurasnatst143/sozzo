@@ -29,26 +29,26 @@ export const authOptions = {
 				try {
 					await connectDB();
 
-					const retriveUser = await User.findOne({ email: email }).select(
-						"password"
+					// Pull everything you need for the session (plus password for comparison)
+					const userDoc = await User.findOne({ email }).select(
+						"+password name email username role points image"
 					);
 
-					if (!retriveUser) return null;
+					if (!userDoc) return null;
 
-					const isMatch = await bcrypt.compare(password, retriveUser.password);
-
+					const isMatch = await bcrypt.compare(password, userDoc.password);
 					if (!isMatch) return null;
 
 					return {
-						id: retriveUser._id.toString(),
-						name: retriveUser.name,
-						email: retriveUser.email,
-						username: retriveUser.username,
-						role: retriveUser.role,
-						points: retriveUser.points,
+						id: userDoc._id.toString(),
+						name: userDoc.name,
+						email: userDoc.email,
+						username: userDoc.username,
+						role: userDoc.role,
+						points: userDoc.points,
+						image: userDoc.image ?? null,
 					};
 				} catch (error) {
-					console.log("hiterr");
 					console.error("Authorize error:", error);
 					return null;
 				}

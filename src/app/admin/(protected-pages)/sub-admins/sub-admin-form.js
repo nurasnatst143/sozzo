@@ -4,7 +4,13 @@ import { useRouter } from "next/navigation";
 
 export default function NewSubadminForm() {
 	const [open, setOpen] = useState(false);
-	const [form, setForm] = useState({ name: "", email: "", password: "" });
+	const [form, setForm] = useState({
+		name: "",
+		email: "",
+		password: "",
+		role: "subadmin",
+		authProvider: "email",
+	});
 	const [loading, setLoading] = useState(false);
 	const [msg, setMsg] = useState(null);
 	const router = useRouter();
@@ -17,7 +23,7 @@ export default function NewSubadminForm() {
 		setLoading(true);
 		setMsg(null);
 		try {
-			const res = await fetch("/api/admin/subadmins", {
+			const res = await fetch("/api/subadmins", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(form),
@@ -49,7 +55,7 @@ export default function NewSubadminForm() {
 			{open && (
 				<form
 					onSubmit={onSubmit}
-					className='mt-4 grid gap-3 rounded-lg border p-4 bg-white'
+					className='mt-4 grid gap-3 rounded-lg border p-4 bg-white text-black'
 				>
 					<div>
 						<label className='block text-sm font-medium mb-1'>Name</label>

@@ -26,9 +26,16 @@ const LoginForm = () => {
 			});
 			console.log("res", res);
 
-			// if (res.ok) {
-			// 	router.push("/");
-			// }
+			if (res.ok) {
+				// read session (includes user.role from your callbacks)
+				const session = await fetch("/api/auth/session").then((r) => r.json());
+				const role = session?.user?.role;
+
+				// route by role
+				router.replace(
+					role === "admin" || role === "subadmin" ? "/admin" : "/"
+				);
+			}
 		} catch (error) {
 			console.log(error);
 		} finally {
