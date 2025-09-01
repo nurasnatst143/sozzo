@@ -1,6 +1,6 @@
 import connectDB from "../../../../config/connectDB";
 import User from "../../../../models/user";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import NodeMailer from "nodemailer";
 
 export const POST = async (request) => {

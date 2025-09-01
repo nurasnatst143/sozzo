@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 
 import User from "../../../../models/user.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { authOptions } from "../auth/[...nextauth]/route.js";
 import connectDB from "../../../../config/connectDB.js";
 
