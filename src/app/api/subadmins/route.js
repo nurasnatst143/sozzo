@@ -29,10 +29,11 @@ export async function POST(req) {
 	const name = (payload?.name || "").trim();
 	const email = (payload?.email || "").toLowerCase().trim();
 	const password = payload?.password || "";
+	const username = (payload?.username || "").trim();
 
-	if (!name || !email || !password) {
+	if (!name || !email || !password || !username) {
 		return NextResponse.json(
-			{ error: "Missing name, email, or password" },
+			{ error: "Missing name, email, password, or username" },
 			{ status: 400 }
 		);
 	}
@@ -62,6 +63,7 @@ export async function POST(req) {
 			email,
 			emailVerified: true, // or false if you plan to send verification
 			password: hash,
+			username,
 			name,
 			role: "subadmin",
 			status: "active",

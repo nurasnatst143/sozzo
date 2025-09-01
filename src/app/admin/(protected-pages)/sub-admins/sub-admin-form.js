@@ -71,7 +71,7 @@ export default function NewSubadminForm() {
 						/>
 					</div>
 					<div>
-						<label className='block text-sm font-medium mb-1'>Name</label>
+						<label className='block text-sm font-medium mb-1'>Username</label>
 						<input
 							name='username'
 							value={form.username}
