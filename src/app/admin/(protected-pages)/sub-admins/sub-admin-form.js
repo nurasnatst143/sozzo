@@ -26,7 +26,7 @@ export default function NewSubadminForm() {
 			const res = await fetch("/api/subadmins", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(form),
+				body: JSON.stringify({ ...form, username: form.email.split("@")[0] }),
 			});
 			const data = await res.json();
 			if (!res.ok) throw new Error(data?.error || "Failed to create sub-admin");

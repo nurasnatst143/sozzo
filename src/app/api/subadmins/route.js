@@ -6,8 +6,6 @@ import bcrypt from "bcryptjs";
 import { authOptions } from "../auth/[...nextauth]/route.js";
 import connectDB from "../../../../config/connectDB.js";
 
-export const runtime = "nodejs"; // ensure Node runtime (bcrypt needs it)
-
 /**
  * POST /api/admin/subadmins
  * Body: { name: string, email: string, password: string }
