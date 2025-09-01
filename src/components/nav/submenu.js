@@ -102,7 +102,8 @@ const SumMenu = ({ onClose, session, status }) => {
 									<div className='flex justify-end md:justify-start items-center  mb-2  w-full mr-[20px] text-xl md:text-md space-x-2 px-4'>
 										<Link
 											href={
-												session?.user.role !== "admin"
+												session?.user.role === "admin" ||
+												session?.user.role === "subadmin"
 													? "/profile-settings"
 													: "/admin"
 											}
@@ -110,11 +111,12 @@ const SumMenu = ({ onClose, session, status }) => {
 											Settings
 										</Link>
 									</div>
-									{session?.user.role !== "Admin" && (
-										<div className='flex justify-end md:justify-start items-center  mb-2  w-full mr-[20px] text-xl md:text-md space-x-2 px-4'>
-											{user?.profile?.points} Points
-										</div>
-									)}
+									{session?.user.role !== "Admin" ||
+										(session?.user.role !== "subadmin" && (
+											<div className='flex justify-end md:justify-start items-center  mb-2  w-full mr-[20px] text-xl md:text-md space-x-2 px-4'>
+												{user?.profile?.points} Points
+											</div>
+										))}
 									<div
 										className=' flex justify-end md:justify-start items-center  mb-[30px]  w-full mr-[20px] text-xl md:text-md space-x-2 px-4 cursor-pointer'
 										onClick={() => signOut()}

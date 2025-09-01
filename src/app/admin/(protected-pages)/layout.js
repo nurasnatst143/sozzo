@@ -11,7 +11,9 @@ import "react-toastify/dist/ReactToastify.css";
 const layout = async ({ children }) => {
 	const session = await getServerSession(authOptions);
 
-	if (!session || session.user.role !== "admin") redirect("/admin/login");
+	if (!session) {
+		redirect("/admin/login");
+	}
 
 	return (
 		<>
