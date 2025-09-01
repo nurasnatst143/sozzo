@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { use, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function NewSubadminForm() {
@@ -10,6 +10,7 @@ export default function NewSubadminForm() {
 		password: "",
 		role: "subadmin",
 		authProvider: "email",
+		username: "",
 	});
 	const [loading, setLoading] = useState(false);
 	const [msg, setMsg] = useState(null);
@@ -26,7 +27,7 @@ export default function NewSubadminForm() {
 			const res = await fetch("/api/subadmins", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ ...form, username: form.email.split("@")[0] }),
+				body: JSON.stringify(form),
 			});
 			const data = await res.json();
 			if (!res.ok) throw new Error(data?.error || "Failed to create sub-admin");
@@ -62,6 +63,18 @@ export default function NewSubadminForm() {
 						<input
 							name='name'
 							value={form.name}
+							onChange={onChange}
+							className='w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-300'
+							placeholder='Full name'
+							required
+							disabled={loading}
+						/>
+					</div>
+					<div>
+						<label className='block text-sm font-medium mb-1'>Name</label>
+						<input
+							name='username'
+							value={form.username}
 							onChange={onChange}
 							className='w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-300'
 							placeholder='Full name'
