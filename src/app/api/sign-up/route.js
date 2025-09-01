@@ -1,8 +1,7 @@
 import connectDB from "../../../../config/connectDB";
 import User from "../../../../models/user";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import NodeMailer from "nodemailer";
-import { redirect } from "next/navigation";
 
 export const POST = async (request) => {
 	connectDB();
@@ -28,10 +27,7 @@ export const POST = async (request) => {
 			emailVerified: false,
 		};
 
-		console.log("LINE AT 10 sign-up api", userData);
-
 		const res = await User.create(userData);
-		console.log("LINE AT 27", res);
 
 		const transporter = NodeMailer.createTransport({
 			host: "mail.privateemail.com",

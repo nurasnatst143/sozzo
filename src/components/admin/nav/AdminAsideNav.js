@@ -21,6 +21,12 @@ const AdminNav = () => {
 			>
 				All categories
 			</Link>
+			<Link
+				href='/admin/sub-admins'
+				className='text-lg capitalize font-semibold'
+			>
+				All Sub Admins
+			</Link>
 			<Link href='/admin/headline' className='text-lg capitalize font-semibold'>
 				Headline
 			</Link>

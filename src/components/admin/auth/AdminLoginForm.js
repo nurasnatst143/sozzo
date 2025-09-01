@@ -2,42 +2,34 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link"; // 👈 add this
 import { IoMdPerson } from "react-icons/io";
 import { FaLock } from "react-icons/fa6";
 
 const AdminLoginForm = () => {
-	const [credentials, setCredentials] = useState({
-		email: "",
-		password: "",
-	});
-	const [loading, setLoading] = useState(false); // 👈 new loading state
+	const [credentials, setCredentials] = useState({ email: "", password: "" });
+	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (!credentials.email || !credentials.password) return;
-		setLoading(true); // 👈 start loading
-
+		setLoading(true);
 		try {
 			const res = await signIn("credentials", {
 				...credentials,
 				redirect: false,
 			});
-			if (res.ok) {
-				router.push("/admin");
-			}
+			if (res.ok) router.push("/admin");
 		} catch (error) {
 			console.log(error);
 		} finally {
-			setLoading(false); // 👈 stop loading
+			setLoading(false);
 		}
 	};
 
 	const handleChange = (e) => {
-		setCredentials((prevState) => ({
-			...prevState,
-			[e.target.name]: e.target.value,
-		}));
+		setCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 	};
 
 	return (
@@ -58,6 +50,7 @@ const AdminLoginForm = () => {
 					required
 				/>
 			</div>
+
 			<div className='relative'>
 				<FaLock className='absolute right-2 top-2 z-10 text-white' />
 				<input
@@ -72,6 +65,7 @@ const AdminLoginForm = () => {
 				/>
 			</div>
 
+			{/* remember + forgot row */}
 			<div className='flex items-center justify-between text-sm'>
 				<label
 					className='relative flex cursor-pointer items-center rounded-full'
@@ -103,6 +97,15 @@ const AdminLoginForm = () => {
 						Remember me
 					</p>
 				</label>
+
+				{/* 👇 Forgot password link */}
+				<Link
+					href='/forgot-password'
+					className='text-primary hover:underline focus:underline'
+					aria-label='Forgot password'
+				>
+					Forgot password?
+				</Link>
 			</div>
 
 			<div className='flex mx-auto w-full'>
