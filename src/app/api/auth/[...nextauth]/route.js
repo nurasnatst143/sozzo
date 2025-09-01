@@ -2,7 +2,7 @@ import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import User from "../../../../../models/user.js";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import connectDB from "../../../../../config/connectDB";
 
 export const authOptions = {
@@ -29,7 +29,9 @@ export const authOptions = {
 				try {
 					await connectDB();
 
-					const retriveUser = await User.findOne({ email: email });
+					const retriveUser = await User.findOne({ email: email }).select(
+						"password"
+					);
 
 					if (!retriveUser) return null;
 

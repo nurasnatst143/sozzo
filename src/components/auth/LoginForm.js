@@ -24,9 +24,11 @@ const LoginForm = () => {
 				...credentials,
 				redirect: false,
 			});
-			if (res.ok) {
-				router.push("/");
-			}
+			console.log("res", res);
+
+			// if (res.ok) {
+			// 	router.push("/");
+			// }
 		} catch (error) {
 			console.log(error);
 		} finally {

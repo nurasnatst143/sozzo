@@ -109,7 +109,6 @@ const DisplayPostDesc = ({ news }) => {
 						}}
 					/>
 					<span className='text-sm text-muted-foreground'>
-						📅{" "}
 						{new Date(news.createdAt).toLocaleDateString("en-US", {
 							year: "numeric",
 							month: "long",
