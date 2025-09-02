@@ -49,6 +49,11 @@ const AdminNav = () => {
 					All Sub Admins
 				</Link>
 			)}
+			{session.user.role === "admin" && (
+				<Link href='/admin/users' className='text-lg capitalize font-semibold'>
+					All Users
+				</Link>
+			)}
 			<Link href='/admin/headline' className='text-lg capitalize font-semibold'>
 				Headline
 			</Link>
