@@ -22,12 +22,12 @@ const layout = async ({ children }) => {
 
 				<Nav />
 
-				<div className='max-w-[1400px] mx-auto px-2 min-h-[80vh] grid grid-cols-4 gap-4'>
-					<div className='h-full bg-background'>
+				<div className='max-w-[1400px] mx-auto px-2 min-h-[80vh] grid grid-cols-7 gap-4'>
+					<div className=' h-full bg-background'>
 						<AdminNav />
 					</div>
 
-					<div className='col-span-3 bg-secondary p-2'>{children}</div>
+					<div className='col-span-6 bg-secondary '>{children}</div>
 				</div>
 			</AuthProvider>
 		</>

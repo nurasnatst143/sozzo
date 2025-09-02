@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import User from "../../../../../models/user";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import connectDB from "../../../../../config/connectDB";
+import RowActions from "./row-actons";
 
 export const dynamic = "force-dynamic"; // always fresh
 
@@ -137,6 +138,9 @@ export default async function UsersPage({ searchParams }) {
 								<th className='px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500'>
 									Joined
 								</th>
+								<th className='px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500'>
+									Actions
+								</th>
 							</tr>
 						</thead>
 						<tbody className='divide-y divide-gray-100 bg-white text-black'>
@@ -185,6 +189,9 @@ export default async function UsersPage({ searchParams }) {
 									</td>
 									<td className='px-4 py-3 text-sm text-gray-600'>
 										{new Date(u.createdAt).toLocaleDateString()}
+									</td>
+									<td className='px-4 py-3'>
+										<RowActions user={u} meId={session.user.id} />
 									</td>
 								</tr>
 							))}
